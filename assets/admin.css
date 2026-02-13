@@ -1,0 +1,31 @@
+.custom-login-logo-actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.custom-login-logo-preview {
+  border: 1px solid #ccd0d4;
+  background: #fff;
+  padding: 12px;
+  max-width: 420px;
+}
+
+.custom-login-logo-preview img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.custom-login-logo-preview.is-empty img {
+  display: none;
+}
+
+.custom-login-logo-placeholder {
+  margin: 0;
+  color: #646970;
+}
+
+.custom-login-logo-preview.is-set .custom-login-logo-placeholder {
+  display: none;
+}
