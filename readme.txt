@@ -1,5 +1,5 @@
 === HDY Custom Login Logo ===
-Contributors: hdyhaus
+Contributors: hdyhaus, MaryOJob
 Tags: login, logo, branding, admin
 Requires at least: 5.8
 Tested up to: 6.9
