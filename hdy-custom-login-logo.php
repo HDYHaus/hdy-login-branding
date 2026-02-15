@@ -22,6 +22,7 @@ define( 'HDY_CUSTOM_LOGIN_LOGO_OPTION_ID', 'custom_login_logo_id' );
 define( 'HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_COLOR', 'custom_login_logo_button_color' );
 define( 'HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_TEXT', 'custom_login_logo_button_text' );
 define( 'HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_TEXT_COLOR', 'custom_login_logo_button_text_color' );
+define( 'HDY_CUSTOM_LOGIN_LOGO_OPTION_BACKGROUND_COLOR', 'custom_login_logo_background_color' );
 
 /**
  * Registers plugin settings.
@@ -72,6 +73,16 @@ function custom_login_logo_register_settings() {
 	register_setting(
 		HDY_CUSTOM_LOGIN_LOGO_SLUG,
 		HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_TEXT_COLOR,
+		[
+			'type'              => 'string',
+			'sanitize_callback' => 'custom_login_logo_sanitize_button_color',
+			'default'           => '',
+		]
+	);
+
+	register_setting(
+		HDY_CUSTOM_LOGIN_LOGO_SLUG,
+		HDY_CUSTOM_LOGIN_LOGO_OPTION_BACKGROUND_COLOR,
 		[
 			'type'              => 'string',
 			'sanitize_callback' => 'custom_login_logo_sanitize_button_color',
@@ -212,6 +223,7 @@ function custom_login_logo_render_settings_page() {
 	$button_color      = (string) get_option( HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_COLOR, '' );
 	$button_text       = (string) get_option( HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_TEXT, '' );
 	$button_text_color = (string) get_option( HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_TEXT_COLOR, '' );
+	$background_color  = (string) get_option( HDY_CUSTOM_LOGIN_LOGO_OPTION_BACKGROUND_COLOR, '' );
 	$theme_logo_id     = (int) get_theme_mod( 'custom_logo' );
 	$theme_logo_url    = $theme_logo_id ? wp_get_attachment_image_url( $theme_logo_id, 'full' ) : '';
 	?>
@@ -279,6 +291,21 @@ function custom_login_logo_render_settings_page() {
 								<?php echo esc_html__( 'No logo selected.', 'hdy-custom-login-logo' ); ?>
 							</p>
 						</div>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><?php echo esc_html__( 'Login page background color', 'hdy-custom-login-logo' ); ?></th>
+					<td>
+						<input
+							type="text"
+							class="custom-login-logo-color"
+							name="<?php echo esc_attr( HDY_CUSTOM_LOGIN_LOGO_OPTION_BACKGROUND_COLOR ); ?>"
+							value="<?php echo esc_attr( $background_color ); ?>"
+							data-default-color="#f0f0f1"
+						>
+						<p class="description">
+							<?php echo esc_html__( 'Leave blank to keep the default WordPress login background.', 'hdy-custom-login-logo' ); ?>
+						</p>
 					</td>
 				</tr>
 				<tr>
@@ -385,6 +412,19 @@ function custom_login_logo_login_styles() {
 			$css .= sprintf(
 				'#login #wp-submit{color:%1$s;}',
 				$button_text_color
+			);
+		}
+	}
+
+	$background_color = trim( (string) get_option( HDY_CUSTOM_LOGIN_LOGO_OPTION_BACKGROUND_COLOR, '' ) );
+
+	if ( '' !== $background_color ) {
+		$background_color = sanitize_hex_color( $background_color );
+
+		if ( $background_color ) {
+			$css .= sprintf(
+				'body.login{background-color:%1$s;background-image:none;}',
+				$background_color
 			);
 		}
 	}

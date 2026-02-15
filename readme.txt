@@ -18,6 +18,7 @@ Features:
 * Enable or disable the custom login logo.
 * Choose a logo from the Media Library.
 * Logo links to the site homepage when enabled.
+* Customize the login page background color.
 * Customize the login button label, background, and text color.
 
 == Installation ==
@@ -35,7 +36,9 @@ When the custom logo is enabled and set, it links to the homepage.
 
 
 == Screenshots ==
-1. Settings page for selecting the login logo.
+1. Plugin settings page with custom logo selection and preview.
+2. Color picker settings for login page background and login button styles.
+3. Customized WordPress login page with branded logo, background, and button text.
 
 == Changelog ==
 = 1.0.0 =
