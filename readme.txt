@@ -35,6 +35,7 @@ When the custom logo is enabled and set, it links to the homepage.
 
 == Screenshots ==
 1. Settings page for selecting the login logo.
+<img src="HDY%20Custom%20Login%20Logo%20for%20WordPress%20Login%20Page.jpg" alt="WordPress Custom Login Logo" width="500">
 
 == Changelog ==
 = 1.0.0 =
