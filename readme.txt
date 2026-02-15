@@ -22,7 +22,7 @@ Features:
 * Customize the login button label, background, and text color.
 
 == Installation ==
-1. Upload the `hdy-custom-login-logo` folder to `/wp-content/plugins/`.
+1. Upload the `hdy-custom-login-logo` folder to `/wp-content/plugins/` Or in your WordPress admin, go to Plugins > Add New > Upload.
 2. Activate the plugin through the Plugins screen in WordPress.
 3. Go to Settings > HDY Login Logo.
 4. Enable the logo and select an image from the Media Library.
