@@ -23,7 +23,7 @@ Features:
 == Installation ==
 1. Upload the `hdy-custom-login-logo` folder to `/wp-content/plugins/`.
 2. Activate the plugin through the Plugins screen in WordPress.
-3. Go to Settings > HDY Custom Login Logo.
+3. Go to Settings > HDY Login Logo.
 4. Enable the logo and select an image from the Media Library.
 
 == Frequently Asked Questions ==
@@ -32,7 +32,6 @@ The login screen uses a 320x120 box. Larger images are scaled to fit.
 
 = Where does the logo link to? =
 When the custom logo is enabled and set, it links to the homepage.
-
 
 == Screenshots ==
 1. Settings page for selecting the login logo.
