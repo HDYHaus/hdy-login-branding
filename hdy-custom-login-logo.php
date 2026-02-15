@@ -3,7 +3,7 @@
  * Plugin Name: HDY Custom Login Logo
  * Plugin URI: https://hdyhaus.com/wp-plugins
  * Description: Brand the WordPress login screen from Settings with a Media Library image toggle.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: HDY Haus
  * Author URI: https://hdyhaus.com
  * License: GPL-3.0-or-later
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HDY_CUSTOM_LOGIN_LOGO_VERSION', '1.0.0' );
+define( 'HDY_CUSTOM_LOGIN_LOGO_VERSION', '1.0.1' );
 define( 'HDY_CUSTOM_LOGIN_LOGO_SLUG', 'hdy-custom-login-logo' );
 define( 'HDY_CUSTOM_LOGIN_LOGO_OPTION_ENABLED', 'custom_login_logo_enabled' );
 define( 'HDY_CUSTOM_LOGIN_LOGO_OPTION_ID', 'custom_login_logo_id' );

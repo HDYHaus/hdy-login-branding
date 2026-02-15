@@ -4,7 +4,7 @@ Tags: login, logo, branding, admin
 Requires at least: 5.8
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -40,5 +40,11 @@ When the custom logo is enabled and set, it links to the homepage.
 3. Customized WordPress login page with branded logo, background, and button text.
 
 == Changelog ==
+= 1.0.1 =
+* Added login page background color customization with WordPress color picker support.
+* Added screenshot assets and expanded screenshot descriptions.
+* Updated plugin and readme license metadata to GPL-3.0-or-later.
+* Improved coding standards compliance with local PHPCS/WPCS tooling.
+
 = 1.0.0 =
 * Initial release.
