@@ -1,31 +1,31 @@
-.custom-login-logo-actions {
+.hdy-login-branding-actions {
   display: flex;
   gap: 8px;
   margin-bottom: 12px;
 }
 
-.custom-login-logo-preview {
+.hdy-login-branding-preview {
   border: 1px solid #ccd0d4;
   background: #fff;
   padding: 12px;
   max-width: 420px;
 }
 
-.custom-login-logo-preview img {
+.hdy-login-branding-preview img {
   max-width: 100%;
   height: auto;
   display: block;
 }
 
-.custom-login-logo-preview.is-empty img {
+.hdy-login-branding-preview.is-empty img {
   display: none;
 }
 
-.custom-login-logo-placeholder {
+.hdy-login-branding-placeholder {
   margin: 0;
   color: #646970;
 }
 
-.custom-login-logo-preview.is-set .custom-login-logo-placeholder {
+.hdy-login-branding-preview.is-set .hdy-login-branding-placeholder {
   display: none;
 }

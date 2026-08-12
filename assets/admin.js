@@ -1,11 +1,11 @@
 jQuery(function ($) {
   var frame;
-  var $select = $('#custom-login-logo-select');
-  var $remove = $('#custom-login-logo-remove');
-  var $id = $('#custom-login-logo-id');
-  var $preview = $('#custom-login-logo-preview');
-  var $previewWrap = $('.custom-login-logo-preview');
-  var $colorPicker = $('.custom-login-logo-color');
+  var $select = $('#hdy-login-branding-select');
+  var $remove = $('#hdy-login-branding-remove');
+  var $id = $('#hdy-login-branding-id');
+  var $preview = $('#hdy-login-branding-preview');
+  var $previewWrap = $('.hdy-login-branding-preview');
+  var $colorPicker = $('.hdy-login-branding-color');
 
   if ($.fn.wpColorPicker && $colorPicker.length) {
     $colorPicker.wpColorPicker();
@@ -20,8 +20,8 @@ jQuery(function ($) {
     }
 
     frame = wp.media({
-      title: customLoginLogo.title,
-      button: { text: customLoginLogo.button },
+      title: hdyLoginBranding.title,
+      button: { text: hdyLoginBranding.button },
       library: { type: 'image' },
       multiple: false
     });
