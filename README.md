@@ -52,6 +52,8 @@ git diff --check
 rg -n "custom_login_logo|customLoginLogo|HDY_CUSTOM_LOGIN_LOGO" .
 ```
 
+Release packages should be published with the clean filename `hdy-login-branding.zip`, even when the plugin version is `1.0.3` or later.
+
 ## License
 
 HDY Login Branding is licensed under the GPL-3.0-or-later license. See [LICENSE](LICENSE).
