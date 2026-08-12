@@ -4,7 +4,7 @@ Tags: login, logo, branding, admin
 Requires at least: 5.8
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -40,6 +40,9 @@ When the custom logo is enabled and set, it links to the homepage.
 3. Customized WordPress login page with branded logo, background, and button text.
 
 == Changelog ==
+= 1.0.3 =
+* Added a Settings action link on the WordPress Plugins screen.
+
 = 1.0.2 =
 * Renamed plugin to HDY Login Branding for WordPress.org review.
 * Updated prefixes, text domain, and asset handles for directory compliance.

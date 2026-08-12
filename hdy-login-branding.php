@@ -3,7 +3,7 @@
  * Plugin Name: HDY Login Branding
  * Plugin URI: https://hdyhaus.com/wp-plugins/custom-login-logo/
  * Description: Brand the WordPress login screen from Settings with a Media Library image toggle.
- * Version: 1.0.2
+ * Version: 1.0.3
  * Author: HDY Haus
  * Author URI: https://hdyhaus.com
  * License: GPL-3.0-or-later
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HDY_LOGIN_BRANDING_VERSION', '1.0.2' );
+define( 'HDY_LOGIN_BRANDING_VERSION', '1.0.3' );
 define( 'HDY_LOGIN_BRANDING_SLUG', 'hdy-login-branding' );
 define( 'HDY_LOGIN_BRANDING_OPTION_ENABLED', 'hdylb_enabled' );
 define( 'HDY_LOGIN_BRANDING_OPTION_ID', 'hdylb_id' );
@@ -468,6 +468,25 @@ function hdylb_header_url( $url ) {
 	return home_url( '/' );
 }
 add_filter( 'login_headerurl', 'hdylb_header_url' );
+
+/**
+ * Adds Settings link to the plugin actions row.
+ *
+ * @param array $links Existing plugin action links.
+ * @return array
+ */
+function hdylb_plugin_action_links( $links ) {
+	$settings_link = sprintf(
+		'<a href="%s">%s</a>',
+		esc_url( admin_url( 'options-general.php?page=' . HDY_LOGIN_BRANDING_SLUG ) ),
+		esc_html__( 'Settings', 'hdy-login-branding' )
+	);
+
+	array_unshift( $links, $settings_link );
+
+	return $links;
+}
+add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'hdylb_plugin_action_links' );
 
 /**
  * Adds plugin row meta links.
