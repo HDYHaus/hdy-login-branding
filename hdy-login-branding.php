@@ -1,22 +1,22 @@
 <?php
 /**
- * Plugin Name: HDY Custom Login Logo
- * Plugin URI: https://hdyhaus.com/wp-plugins
- * Description: Brand the WordPress login screen from Settings with a Media Library image toggle.
- * Version: 1.0.1
+ * Plugin Name: HDY Login Branding
+ * Plugin URI: https://hdyhaus.com/wp-plugins/hdy-login-branding/
+ * Description: Brand the WordPress login screen with a custom logo, background, and button styles.
+ * Version: 1.0.2
  * Author: HDY Haus
  * Author URI: https://hdyhaus.com
  * License: GPL-3.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
- * Text Domain: hdy-custom-login-logo
+ * Text Domain: hdy-login-branding
  *
- * @package HDYCustomLoginLogo
+ * @package HDYLoginBranding
  */
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HDY_CUSTOM_LOGIN_LOGO_VERSION', '1.0.1' );
-define( 'HDY_CUSTOM_LOGIN_LOGO_SLUG', 'hdy-custom-login-logo' );
+define( 'HDY_CUSTOM_LOGIN_LOGO_VERSION', '1.0.2' );
+define( 'HDY_CUSTOM_LOGIN_LOGO_SLUG', 'hdy-login-branding' );
 define( 'HDY_CUSTOM_LOGIN_LOGO_OPTION_ENABLED', 'custom_login_logo_enabled' );
 define( 'HDY_CUSTOM_LOGIN_LOGO_OPTION_ID', 'custom_login_logo_id' );
 define( 'HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_COLOR', 'custom_login_logo_button_color' );
@@ -157,8 +157,8 @@ function custom_login_logo_sanitize_button_text( $value ) {
  */
 function custom_login_logo_add_settings_page() {
 	add_options_page(
-		esc_html__( 'HDY Custom Login Logo', 'hdy-custom-login-logo' ),
-		esc_html__( 'HDY Login Logo', 'hdy-custom-login-logo' ),
+		esc_html__( 'HDY Login Branding', 'hdy-login-branding' ),
+		esc_html__( 'HDY Login Branding', 'hdy-login-branding' ),
 		'manage_options',
 		HDY_CUSTOM_LOGIN_LOGO_SLUG,
 		'custom_login_logo_render_settings_page'
@@ -181,14 +181,14 @@ function custom_login_logo_admin_assets( $hook ) {
 	wp_enqueue_style( 'wp-color-picker' );
 
 	wp_enqueue_style(
-		'custom-login-logo-admin',
+		'hdy-login-branding-admin',
 		plugin_dir_url( __FILE__ ) . 'assets/admin.css',
 		[],
 		HDY_CUSTOM_LOGIN_LOGO_VERSION
 	);
 
 	wp_enqueue_script(
-		'custom-login-logo-admin',
+		'hdy-login-branding-admin',
 		plugin_dir_url( __FILE__ ) . 'assets/admin.js',
 		[ 'jquery', 'wp-color-picker' ],
 		HDY_CUSTOM_LOGIN_LOGO_VERSION,
@@ -196,11 +196,11 @@ function custom_login_logo_admin_assets( $hook ) {
 	);
 
 	wp_localize_script(
-		'custom-login-logo-admin',
-		'customLoginLogo',
+		'hdy-login-branding-admin',
+		'hdyLoginBranding',
 		[
-			'title'  => esc_html__( 'Select Login Logo', 'hdy-custom-login-logo' ),
-			'button' => esc_html__( 'Use this logo', 'hdy-custom-login-logo' ),
+			'title'  => esc_html__( 'Select Login Logo', 'hdy-login-branding' ),
+			'button' => esc_html__( 'Use this logo', 'hdy-login-branding' ),
 		]
 	);
 }
@@ -228,15 +228,15 @@ function custom_login_logo_render_settings_page() {
 	$theme_logo_url    = $theme_logo_id ? wp_get_attachment_image_url( $theme_logo_id, 'full' ) : '';
 	?>
 	<div class="wrap">
-		<h1><?php echo esc_html__( 'HDY Custom Login Logo', 'hdy-custom-login-logo' ); ?></h1>
+		<h1><?php echo esc_html__( 'HDY Login Branding', 'hdy-login-branding' ); ?></h1>
 		<?php if ( $enabled && ! $logo_id ) : ?>
 			<div class="notice notice-warning">
 				<p>
 					<?php
 					if ( $theme_logo_url ) {
-						echo esc_html__( 'Custom logo is enabled, but no image is selected. Your theme logo will be used until you choose a logo.', 'hdy-custom-login-logo' );
+						echo esc_html__( 'Custom logo is enabled, but no image is selected. Your theme logo will be used until you choose a logo.', 'hdy-login-branding' );
 					} else {
-						echo esc_html__( 'Custom logo is enabled, but no image is selected. The default WordPress logo will remain until you choose a logo.', 'hdy-custom-login-logo' );
+						echo esc_html__( 'Custom logo is enabled, but no image is selected. The default WordPress logo will remain until you choose a logo.', 'hdy-login-branding' );
 					}
 					?>
 				</p>
@@ -246,7 +246,7 @@ function custom_login_logo_render_settings_page() {
 			<?php settings_fields( HDY_CUSTOM_LOGIN_LOGO_SLUG ); ?>
 			<table class="form-table" role="presentation">
 				<tr>
-					<th scope="row"><?php echo esc_html__( 'Enable custom logo', 'hdy-custom-login-logo' ); ?></th>
+					<th scope="row"><?php echo esc_html__( 'Enable custom logo', 'hdy-login-branding' ); ?></th>
 					<td>
 						<label>
 							<input
@@ -260,56 +260,56 @@ function custom_login_logo_render_settings_page() {
 								value="1"
 								<?php checked( 1, $enabled ); ?>
 							>
-							<?php echo esc_html__( 'Replace the login logo with your selected image.', 'hdy-custom-login-logo' ); ?>
+							<?php echo esc_html__( 'Replace the login logo with your selected image.', 'hdy-login-branding' ); ?>
 						</label>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><?php echo esc_html__( 'Login logo', 'hdy-custom-login-logo' ); ?></th>
+					<th scope="row"><?php echo esc_html__( 'Login logo', 'hdy-login-branding' ); ?></th>
 					<td>
 						<input
 							type="hidden"
-							id="custom-login-logo-id"
+							id="hdy-login-branding-id"
 							name="<?php echo esc_attr( HDY_CUSTOM_LOGIN_LOGO_OPTION_ID ); ?>"
 							value="<?php echo esc_attr( $logo_id ); ?>"
 						>
-						<div class="custom-login-logo-actions">
-							<button type="button" class="button" id="custom-login-logo-select">
-								<?php echo esc_html__( 'Select logo', 'hdy-custom-login-logo' ); ?>
+						<div class="hdy-login-branding-actions">
+							<button type="button" class="button" id="hdy-login-branding-select">
+								<?php echo esc_html__( 'Select logo', 'hdy-login-branding' ); ?>
 							</button>
-							<button type="button" class="button" id="custom-login-logo-remove" <?php disabled( 0, $logo_id ); ?>>
-								<?php echo esc_html__( 'Remove logo', 'hdy-custom-login-logo' ); ?>
+							<button type="button" class="button" id="hdy-login-branding-remove" <?php disabled( 0, $logo_id ); ?>>
+								<?php echo esc_html__( 'Remove logo', 'hdy-login-branding' ); ?>
 							</button>
 						</div>
-						<div class="custom-login-logo-preview <?php echo esc_attr( $preview_class ); ?>">
+						<div class="hdy-login-branding-preview <?php echo esc_attr( $preview_class ); ?>">
 							<img
-								id="custom-login-logo-preview"
+								id="hdy-login-branding-preview"
 								src="<?php echo esc_url( $logo_url ); ?>"
-								alt="<?php echo esc_attr__( 'Login logo preview', 'hdy-custom-login-logo' ); ?>"
+								alt="<?php echo esc_attr__( 'Login logo preview', 'hdy-login-branding' ); ?>"
 							>
-							<p class="custom-login-logo-placeholder">
-								<?php echo esc_html__( 'No logo selected.', 'hdy-custom-login-logo' ); ?>
+							<p class="hdy-login-branding-placeholder">
+								<?php echo esc_html__( 'No logo selected.', 'hdy-login-branding' ); ?>
 							</p>
 						</div>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><?php echo esc_html__( 'Login page background color', 'hdy-custom-login-logo' ); ?></th>
+					<th scope="row"><?php echo esc_html__( 'Login page background color', 'hdy-login-branding' ); ?></th>
 					<td>
 						<input
 							type="text"
-							class="custom-login-logo-color"
+							class="hdy-login-branding-color"
 							name="<?php echo esc_attr( HDY_CUSTOM_LOGIN_LOGO_OPTION_BACKGROUND_COLOR ); ?>"
 							value="<?php echo esc_attr( $background_color ); ?>"
 							data-default-color="#f0f0f1"
 						>
 						<p class="description">
-							<?php echo esc_html__( 'Leave blank to keep the default WordPress login background.', 'hdy-custom-login-logo' ); ?>
+							<?php echo esc_html__( 'Leave blank to keep the default WordPress login background.', 'hdy-login-branding' ); ?>
 						</p>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><?php echo esc_html__( 'Login button text', 'hdy-custom-login-logo' ); ?></th>
+					<th scope="row"><?php echo esc_html__( 'Login button text', 'hdy-login-branding' ); ?></th>
 					<td>
 						<input
 							type="text"
@@ -318,37 +318,37 @@ function custom_login_logo_render_settings_page() {
 							value="<?php echo esc_attr( $button_text ); ?>"
 						>
 						<p class="description">
-							<?php echo esc_html__( 'Leave blank to use the default "Log In" label.', 'hdy-custom-login-logo' ); ?>
+							<?php echo esc_html__( 'Leave blank to use the default "Log In" label.', 'hdy-login-branding' ); ?>
 						</p>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><?php echo esc_html__( 'Login button background color', 'hdy-custom-login-logo' ); ?></th>
+					<th scope="row"><?php echo esc_html__( 'Login button background color', 'hdy-login-branding' ); ?></th>
 					<td>
 						<input
 							type="text"
-							class="custom-login-logo-color"
+							class="hdy-login-branding-color"
 							name="<?php echo esc_attr( HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_COLOR ); ?>"
 							value="<?php echo esc_attr( $button_color ); ?>"
 							data-default-color="#2271b1"
 						>
 						<p class="description">
-							<?php echo esc_html__( 'Leave blank to keep the default WordPress button color.', 'hdy-custom-login-logo' ); ?>
+							<?php echo esc_html__( 'Leave blank to keep the default WordPress button color.', 'hdy-login-branding' ); ?>
 						</p>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><?php echo esc_html__( 'Login button text color', 'hdy-custom-login-logo' ); ?></th>
+					<th scope="row"><?php echo esc_html__( 'Login button text color', 'hdy-login-branding' ); ?></th>
 					<td>
 						<input
 							type="text"
-							class="custom-login-logo-color"
+							class="hdy-login-branding-color"
 							name="<?php echo esc_attr( HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_TEXT_COLOR ); ?>"
 							value="<?php echo esc_attr( $button_text_color ); ?>"
 							data-default-color="#ffffff"
 						>
 						<p class="description">
-							<?php echo esc_html__( 'Leave blank to keep the default button text color.', 'hdy-custom-login-logo' ); ?>
+							<?php echo esc_html__( 'Leave blank to keep the default button text color.', 'hdy-login-branding' ); ?>
 						</p>
 					</td>
 				</tr>
@@ -439,9 +439,9 @@ function custom_login_logo_login_styles() {
 	if ( '' !== $button_text ) {
 		$script = 'document.addEventListener("DOMContentLoaded",function(){var btn=document.getElementById("wp-submit");if(btn){btn.value=' . wp_json_encode( $button_text ) . ';}});';
 
-		wp_register_script( 'custom-login-logo-login', '', [], HDY_CUSTOM_LOGIN_LOGO_VERSION, true );
-		wp_enqueue_script( 'custom-login-logo-login' );
-		wp_add_inline_script( 'custom-login-logo-login', $script );
+		wp_register_script( 'hdy-login-branding-login', '', [], HDY_CUSTOM_LOGIN_LOGO_VERSION, true );
+		wp_enqueue_script( 'hdy-login-branding-login' );
+		wp_add_inline_script( 'hdy-login-branding-login', $script );
 	}
 }
 add_action( 'login_enqueue_scripts', 'custom_login_logo_login_styles' );
@@ -483,8 +483,8 @@ function custom_login_logo_plugin_row_meta( $links, $file ) {
 
 	$links[] = sprintf(
 		'<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-		esc_url( 'https://hdyhaus.com/wp-plugins' ),
-		esc_html__( 'View details', 'hdy-custom-login-logo' )
+		esc_url( 'https://hdyhaus.com/wp-plugins/hdy-login-branding/' ),
+		esc_html__( 'View details', 'hdy-login-branding' )
 	);
 
 	return $links;

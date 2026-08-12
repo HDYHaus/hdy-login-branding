@@ -1,30 +1,32 @@
-=== HDY Custom Login Logo ===
+=== HDY Login Branding ===
 Contributors: hdyhaus, MaryOJob
 Tags: login, logo, branding, admin
 Requires at least: 5.8
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Brand the WordPress login screen from Settings with a Media Library image toggle.
+Brand the WordPress login screen with a custom logo, background, and button styles.
 Built by HDY Haus (https://hdyhaus.com).
 
 == Description ==
 Customize the WordPress login screen without touching code.
 
+Learn more: https://hdyhaus.com/wp-plugins/hdy-login-branding/
+
 Features:
-* Enable or disable the custom login logo.
+* Enable or disable the custom login branding.
 * Choose a logo from the Media Library.
 * Logo links to the site homepage when enabled.
 * Customize the login page background color.
 * Customize the login button label, background, and text color.
 
 == Installation ==
-1. Upload the `hdy-custom-login-logo` folder to `/wp-content/plugins/` Or in your WordPress admin, go to Plugins > Add New > Upload.
+1. Upload the `hdy-login-branding` folder to `/wp-content/plugins/` Or in your WordPress admin, go to Plugins > Add New > Upload.
 2. Activate the plugin through the Plugins screen in WordPress.
-3. Go to Settings > HDY Login Logo.
+3. Go to Settings > HDY Login Branding.
 4. Enable the logo and select an image from the Media Library.
 
 == Frequently Asked Questions ==
@@ -40,6 +42,10 @@ When the custom logo is enabled and set, it links to the homepage.
 3. Customized WordPress login page with branded logo, background, and button text.
 
 == Changelog ==
+= 1.0.2 =
+* Renamed the plugin to HDY Login Branding.
+* Updated plugin links to https://hdyhaus.com/wp-plugins/hdy-login-branding/.
+
 = 1.0.1 =
 * Added login page background color customization with WordPress color picker support.
 * Added screenshot assets and expanded screenshot descriptions.
