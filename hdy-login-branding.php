@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: HDY Login Branding
- * Plugin URI: https://hdyhaus.com/wp-plugins
+ * Plugin URI: https://hdyhaus.com/wp-plugins/custom-login-logo/
  * Description: Brand the WordPress login screen from Settings with a Media Library image toggle.
  * Version: 1.0.2
  * Author: HDY Haus
@@ -483,7 +483,7 @@ function hdylb_plugin_row_meta( $links, $file ) {
 
 	$links[] = sprintf(
 		'<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-		esc_url( 'https://hdyhaus.com/wp-plugins' ),
+		esc_url( 'https://hdyhaus.com/wp-plugins/custom-login-logo/' ),
 		esc_html__( 'View details', 'hdy-login-branding' )
 	);
 
