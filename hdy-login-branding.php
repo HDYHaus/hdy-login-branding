@@ -2,8 +2,8 @@
 /**
  * Plugin Name: HDY Login Branding
  * Plugin URI: https://hdyhaus.com/wp-plugins/hdy-login-branding/
- * Description: Brand the WordPress login screen with a custom logo, background, and button styles.
- * Version: 1.0.2
+ * Description: Brand the WordPress login screen from Settings with a Media Library image toggle.
+ * Version: 1.0.3
  * Author: HDY Haus
  * Author URI: https://hdyhaus.com
  * License: GPL-3.0-or-later
@@ -15,82 +15,82 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HDY_CUSTOM_LOGIN_LOGO_VERSION', '1.0.2' );
-define( 'HDY_CUSTOM_LOGIN_LOGO_SLUG', 'hdy-login-branding' );
-define( 'HDY_CUSTOM_LOGIN_LOGO_OPTION_ENABLED', 'custom_login_logo_enabled' );
-define( 'HDY_CUSTOM_LOGIN_LOGO_OPTION_ID', 'custom_login_logo_id' );
-define( 'HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_COLOR', 'custom_login_logo_button_color' );
-define( 'HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_TEXT', 'custom_login_logo_button_text' );
-define( 'HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_TEXT_COLOR', 'custom_login_logo_button_text_color' );
-define( 'HDY_CUSTOM_LOGIN_LOGO_OPTION_BACKGROUND_COLOR', 'custom_login_logo_background_color' );
+define( 'HDY_LOGIN_BRANDING_VERSION', '1.0.3' );
+define( 'HDY_LOGIN_BRANDING_SLUG', 'hdy-login-branding' );
+define( 'HDY_LOGIN_BRANDING_OPTION_ENABLED', 'hdylb_enabled' );
+define( 'HDY_LOGIN_BRANDING_OPTION_ID', 'hdylb_id' );
+define( 'HDY_LOGIN_BRANDING_OPTION_BUTTON_COLOR', 'hdylb_button_color' );
+define( 'HDY_LOGIN_BRANDING_OPTION_BUTTON_TEXT', 'hdylb_button_text' );
+define( 'HDY_LOGIN_BRANDING_OPTION_BUTTON_TEXT_COLOR', 'hdylb_button_text_color' );
+define( 'HDY_LOGIN_BRANDING_OPTION_BACKGROUND_COLOR', 'hdylb_background_color' );
 
 /**
  * Registers plugin settings.
  *
  * @return void
  */
-function custom_login_logo_register_settings() {
+function hdylb_register_settings() {
 	register_setting(
-		HDY_CUSTOM_LOGIN_LOGO_SLUG,
-		HDY_CUSTOM_LOGIN_LOGO_OPTION_ENABLED,
+		HDY_LOGIN_BRANDING_SLUG,
+		HDY_LOGIN_BRANDING_OPTION_ENABLED,
 		[
 			'type'              => 'boolean',
-			'sanitize_callback' => 'custom_login_logo_sanitize_enabled',
+			'sanitize_callback' => 'hdylb_sanitize_enabled',
 			'default'           => 0,
 		]
 	);
 
 	register_setting(
-		HDY_CUSTOM_LOGIN_LOGO_SLUG,
-		HDY_CUSTOM_LOGIN_LOGO_OPTION_ID,
+		HDY_LOGIN_BRANDING_SLUG,
+		HDY_LOGIN_BRANDING_OPTION_ID,
 		[
 			'type'              => 'integer',
-			'sanitize_callback' => 'custom_login_logo_sanitize_logo_id',
+			'sanitize_callback' => 'hdylb_sanitize_logo_id',
 			'default'           => 0,
 		]
 	);
 
 	register_setting(
-		HDY_CUSTOM_LOGIN_LOGO_SLUG,
-		HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_COLOR,
+		HDY_LOGIN_BRANDING_SLUG,
+		HDY_LOGIN_BRANDING_OPTION_BUTTON_COLOR,
 		[
 			'type'              => 'string',
-			'sanitize_callback' => 'custom_login_logo_sanitize_button_color',
+			'sanitize_callback' => 'hdylb_sanitize_button_color',
 			'default'           => '',
 		]
 	);
 
 	register_setting(
-		HDY_CUSTOM_LOGIN_LOGO_SLUG,
-		HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_TEXT,
+		HDY_LOGIN_BRANDING_SLUG,
+		HDY_LOGIN_BRANDING_OPTION_BUTTON_TEXT,
 		[
 			'type'              => 'string',
-			'sanitize_callback' => 'custom_login_logo_sanitize_button_text',
+			'sanitize_callback' => 'hdylb_sanitize_button_text',
 			'default'           => '',
 		]
 	);
 
 	register_setting(
-		HDY_CUSTOM_LOGIN_LOGO_SLUG,
-		HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_TEXT_COLOR,
+		HDY_LOGIN_BRANDING_SLUG,
+		HDY_LOGIN_BRANDING_OPTION_BUTTON_TEXT_COLOR,
 		[
 			'type'              => 'string',
-			'sanitize_callback' => 'custom_login_logo_sanitize_button_color',
+			'sanitize_callback' => 'hdylb_sanitize_button_color',
 			'default'           => '',
 		]
 	);
 
 	register_setting(
-		HDY_CUSTOM_LOGIN_LOGO_SLUG,
-		HDY_CUSTOM_LOGIN_LOGO_OPTION_BACKGROUND_COLOR,
+		HDY_LOGIN_BRANDING_SLUG,
+		HDY_LOGIN_BRANDING_OPTION_BACKGROUND_COLOR,
 		[
 			'type'              => 'string',
-			'sanitize_callback' => 'custom_login_logo_sanitize_button_color',
+			'sanitize_callback' => 'hdylb_sanitize_button_color',
 			'default'           => '',
 		]
 	);
 }
-add_action( 'admin_init', 'custom_login_logo_register_settings' );
+add_action( 'admin_init', 'hdylb_register_settings' );
 
 /**
  * Sanitizes enabled setting value.
@@ -98,7 +98,7 @@ add_action( 'admin_init', 'custom_login_logo_register_settings' );
  * @param mixed $value Setting value.
  * @return int
  */
-function custom_login_logo_sanitize_enabled( $value ) {
+function hdylb_sanitize_enabled( $value ) {
 	return $value ? 1 : 0;
 }
 
@@ -108,7 +108,7 @@ function custom_login_logo_sanitize_enabled( $value ) {
  * @param mixed $value Setting value.
  * @return int
  */
-function custom_login_logo_sanitize_logo_id( $value ) {
+function hdylb_sanitize_logo_id( $value ) {
 	$value = absint( $value );
 
 	if ( ! $value ) {
@@ -128,7 +128,7 @@ function custom_login_logo_sanitize_logo_id( $value ) {
  * @param mixed $value Setting value.
  * @return string
  */
-function custom_login_logo_sanitize_button_color( $value ) {
+function hdylb_sanitize_button_color( $value ) {
 	$value = trim( (string) $value );
 
 	if ( '' === $value ) {
@@ -146,7 +146,7 @@ function custom_login_logo_sanitize_button_color( $value ) {
  * @param mixed $value Setting value.
  * @return string
  */
-function custom_login_logo_sanitize_button_text( $value ) {
+function hdylb_sanitize_button_text( $value ) {
 	return sanitize_text_field( $value );
 }
 
@@ -155,16 +155,16 @@ function custom_login_logo_sanitize_button_text( $value ) {
  *
  * @return void
  */
-function custom_login_logo_add_settings_page() {
+function hdylb_add_settings_page() {
 	add_options_page(
 		esc_html__( 'HDY Login Branding', 'hdy-login-branding' ),
 		esc_html__( 'HDY Login Branding', 'hdy-login-branding' ),
 		'manage_options',
-		HDY_CUSTOM_LOGIN_LOGO_SLUG,
-		'custom_login_logo_render_settings_page'
+		HDY_LOGIN_BRANDING_SLUG,
+		'hdylb_render_settings_page'
 	);
 }
-add_action( 'admin_menu', 'custom_login_logo_add_settings_page' );
+add_action( 'admin_menu', 'hdylb_add_settings_page' );
 
 /**
  * Enqueues admin assets for plugin settings screen.
@@ -172,8 +172,8 @@ add_action( 'admin_menu', 'custom_login_logo_add_settings_page' );
  * @param string $hook Current admin page hook suffix.
  * @return void
  */
-function custom_login_logo_admin_assets( $hook ) {
-	if ( 'settings_page_' . HDY_CUSTOM_LOGIN_LOGO_SLUG !== $hook ) {
+function hdylb_admin_assets( $hook ) {
+	if ( 'settings_page_' . HDY_LOGIN_BRANDING_SLUG !== $hook ) {
 		return;
 	}
 
@@ -184,14 +184,14 @@ function custom_login_logo_admin_assets( $hook ) {
 		'hdy-login-branding-admin',
 		plugin_dir_url( __FILE__ ) . 'assets/admin.css',
 		[],
-		HDY_CUSTOM_LOGIN_LOGO_VERSION
+		HDY_LOGIN_BRANDING_VERSION
 	);
 
 	wp_enqueue_script(
 		'hdy-login-branding-admin',
 		plugin_dir_url( __FILE__ ) . 'assets/admin.js',
 		[ 'jquery', 'wp-color-picker' ],
-		HDY_CUSTOM_LOGIN_LOGO_VERSION,
+		HDY_LOGIN_BRANDING_VERSION,
 		true
 	);
 
@@ -204,26 +204,26 @@ function custom_login_logo_admin_assets( $hook ) {
 		]
 	);
 }
-add_action( 'admin_enqueue_scripts', 'custom_login_logo_admin_assets' );
+add_action( 'admin_enqueue_scripts', 'hdylb_admin_assets' );
 
 /**
  * Renders plugin settings page.
  *
  * @return void
  */
-function custom_login_logo_render_settings_page() {
+function hdylb_render_settings_page() {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return;
 	}
 
-	$enabled           = (int) get_option( HDY_CUSTOM_LOGIN_LOGO_OPTION_ENABLED, 0 );
-	$logo_id           = (int) get_option( HDY_CUSTOM_LOGIN_LOGO_OPTION_ID, 0 );
+	$enabled           = (int) get_option( HDY_LOGIN_BRANDING_OPTION_ENABLED, 0 );
+	$logo_id           = (int) get_option( HDY_LOGIN_BRANDING_OPTION_ID, 0 );
 	$logo_url          = $logo_id ? wp_get_attachment_image_url( $logo_id, 'full' ) : '';
 	$preview_class     = $logo_url ? 'is-set' : 'is-empty';
-	$button_color      = (string) get_option( HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_COLOR, '' );
-	$button_text       = (string) get_option( HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_TEXT, '' );
-	$button_text_color = (string) get_option( HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_TEXT_COLOR, '' );
-	$background_color  = (string) get_option( HDY_CUSTOM_LOGIN_LOGO_OPTION_BACKGROUND_COLOR, '' );
+	$button_color      = (string) get_option( HDY_LOGIN_BRANDING_OPTION_BUTTON_COLOR, '' );
+	$button_text       = (string) get_option( HDY_LOGIN_BRANDING_OPTION_BUTTON_TEXT, '' );
+	$button_text_color = (string) get_option( HDY_LOGIN_BRANDING_OPTION_BUTTON_TEXT_COLOR, '' );
+	$background_color  = (string) get_option( HDY_LOGIN_BRANDING_OPTION_BACKGROUND_COLOR, '' );
 	$theme_logo_id     = (int) get_theme_mod( 'custom_logo' );
 	$theme_logo_url    = $theme_logo_id ? wp_get_attachment_image_url( $theme_logo_id, 'full' ) : '';
 	?>
@@ -243,7 +243,7 @@ function custom_login_logo_render_settings_page() {
 			</div>
 		<?php endif; ?>
 		<form method="post" action="options.php">
-			<?php settings_fields( HDY_CUSTOM_LOGIN_LOGO_SLUG ); ?>
+			<?php settings_fields( HDY_LOGIN_BRANDING_SLUG ); ?>
 			<table class="form-table" role="presentation">
 				<tr>
 					<th scope="row"><?php echo esc_html__( 'Enable custom logo', 'hdy-login-branding' ); ?></th>
@@ -251,12 +251,12 @@ function custom_login_logo_render_settings_page() {
 						<label>
 							<input
 								type="hidden"
-								name="<?php echo esc_attr( HDY_CUSTOM_LOGIN_LOGO_OPTION_ENABLED ); ?>"
+								name="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_ENABLED ); ?>"
 								value="0"
 							>
 							<input
 								type="checkbox"
-								name="<?php echo esc_attr( HDY_CUSTOM_LOGIN_LOGO_OPTION_ENABLED ); ?>"
+								name="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_ENABLED ); ?>"
 								value="1"
 								<?php checked( 1, $enabled ); ?>
 							>
@@ -270,7 +270,7 @@ function custom_login_logo_render_settings_page() {
 						<input
 							type="hidden"
 							id="hdy-login-branding-id"
-							name="<?php echo esc_attr( HDY_CUSTOM_LOGIN_LOGO_OPTION_ID ); ?>"
+							name="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_ID ); ?>"
 							value="<?php echo esc_attr( $logo_id ); ?>"
 						>
 						<div class="hdy-login-branding-actions">
@@ -299,7 +299,7 @@ function custom_login_logo_render_settings_page() {
 						<input
 							type="text"
 							class="hdy-login-branding-color"
-							name="<?php echo esc_attr( HDY_CUSTOM_LOGIN_LOGO_OPTION_BACKGROUND_COLOR ); ?>"
+							name="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_BACKGROUND_COLOR ); ?>"
 							value="<?php echo esc_attr( $background_color ); ?>"
 							data-default-color="#f0f0f1"
 						>
@@ -314,7 +314,7 @@ function custom_login_logo_render_settings_page() {
 						<input
 							type="text"
 							class="regular-text"
-							name="<?php echo esc_attr( HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_TEXT ); ?>"
+							name="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_BUTTON_TEXT ); ?>"
 							value="<?php echo esc_attr( $button_text ); ?>"
 						>
 						<p class="description">
@@ -328,7 +328,7 @@ function custom_login_logo_render_settings_page() {
 						<input
 							type="text"
 							class="hdy-login-branding-color"
-							name="<?php echo esc_attr( HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_COLOR ); ?>"
+							name="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_BUTTON_COLOR ); ?>"
 							value="<?php echo esc_attr( $button_color ); ?>"
 							data-default-color="#2271b1"
 						>
@@ -343,7 +343,7 @@ function custom_login_logo_render_settings_page() {
 						<input
 							type="text"
 							class="hdy-login-branding-color"
-							name="<?php echo esc_attr( HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_TEXT_COLOR ); ?>"
+							name="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_BUTTON_TEXT_COLOR ); ?>"
 							value="<?php echo esc_attr( $button_text_color ); ?>"
 							data-default-color="#ffffff"
 						>
@@ -364,12 +364,12 @@ function custom_login_logo_render_settings_page() {
  *
  * @return void
  */
-function custom_login_logo_login_styles() {
+function hdylb_login_styles() {
 	$css     = '';
-	$enabled = (int) get_option( HDY_CUSTOM_LOGIN_LOGO_OPTION_ENABLED, 0 );
+	$enabled = (int) get_option( HDY_LOGIN_BRANDING_OPTION_ENABLED, 0 );
 
 	if ( $enabled ) {
-		$logo_id  = (int) get_option( HDY_CUSTOM_LOGIN_LOGO_OPTION_ID, 0 );
+		$logo_id  = (int) get_option( HDY_LOGIN_BRANDING_OPTION_ID, 0 );
 		$logo_url = '';
 
 		if ( $logo_id ) {
@@ -390,7 +390,7 @@ function custom_login_logo_login_styles() {
 		}
 	}
 
-	$button_color = trim( (string) get_option( HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_COLOR, '' ) );
+	$button_color = trim( (string) get_option( HDY_LOGIN_BRANDING_OPTION_BUTTON_COLOR, '' ) );
 
 	if ( '' !== $button_color ) {
 		$button_color = sanitize_hex_color( $button_color );
@@ -403,7 +403,7 @@ function custom_login_logo_login_styles() {
 		}
 	}
 
-	$button_text_color = trim( (string) get_option( HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_TEXT_COLOR, '' ) );
+	$button_text_color = trim( (string) get_option( HDY_LOGIN_BRANDING_OPTION_BUTTON_TEXT_COLOR, '' ) );
 
 	if ( '' !== $button_text_color ) {
 		$button_text_color = sanitize_hex_color( $button_text_color );
@@ -416,7 +416,7 @@ function custom_login_logo_login_styles() {
 		}
 	}
 
-	$background_color = trim( (string) get_option( HDY_CUSTOM_LOGIN_LOGO_OPTION_BACKGROUND_COLOR, '' ) );
+	$background_color = trim( (string) get_option( HDY_LOGIN_BRANDING_OPTION_BACKGROUND_COLOR, '' ) );
 
 	if ( '' !== $background_color ) {
 		$background_color = sanitize_hex_color( $background_color );
@@ -433,18 +433,18 @@ function custom_login_logo_login_styles() {
 		wp_add_inline_style( 'login', $css );
 	}
 
-	$button_text = sanitize_text_field( (string) get_option( HDY_CUSTOM_LOGIN_LOGO_OPTION_BUTTON_TEXT, '' ) );
+	$button_text = sanitize_text_field( (string) get_option( HDY_LOGIN_BRANDING_OPTION_BUTTON_TEXT, '' ) );
 	$button_text = trim( $button_text );
 
 	if ( '' !== $button_text ) {
 		$script = 'document.addEventListener("DOMContentLoaded",function(){var btn=document.getElementById("wp-submit");if(btn){btn.value=' . wp_json_encode( $button_text ) . ';}});';
 
-		wp_register_script( 'hdy-login-branding-login', '', [], HDY_CUSTOM_LOGIN_LOGO_VERSION, true );
+		wp_register_script( 'hdy-login-branding-login', '', [], HDY_LOGIN_BRANDING_VERSION, true );
 		wp_enqueue_script( 'hdy-login-branding-login' );
 		wp_add_inline_script( 'hdy-login-branding-login', $script );
 	}
 }
-add_action( 'login_enqueue_scripts', 'custom_login_logo_login_styles' );
+add_action( 'login_enqueue_scripts', 'hdylb_login_styles' );
 
 /**
  * Sets the login logo URL target.
@@ -452,14 +452,14 @@ add_action( 'login_enqueue_scripts', 'custom_login_logo_login_styles' );
  * @param string $url Existing URL.
  * @return string
  */
-function custom_login_logo_header_url( $url ) {
-	$enabled = (int) get_option( HDY_CUSTOM_LOGIN_LOGO_OPTION_ENABLED, 0 );
+function hdylb_header_url( $url ) {
+	$enabled = (int) get_option( HDY_LOGIN_BRANDING_OPTION_ENABLED, 0 );
 
 	if ( ! $enabled ) {
 		return $url;
 	}
 
-	$logo_id = (int) get_option( HDY_CUSTOM_LOGIN_LOGO_OPTION_ID, 0 );
+	$logo_id = (int) get_option( HDY_LOGIN_BRANDING_OPTION_ID, 0 );
 
 	if ( ! $logo_id ) {
 		return $url;
@@ -467,7 +467,26 @@ function custom_login_logo_header_url( $url ) {
 
 	return home_url( '/' );
 }
-add_filter( 'login_headerurl', 'custom_login_logo_header_url' );
+add_filter( 'login_headerurl', 'hdylb_header_url' );
+
+/**
+ * Adds Settings link to the plugin actions row.
+ *
+ * @param array $links Existing plugin action links.
+ * @return array
+ */
+function hdylb_plugin_action_links( $links ) {
+	$settings_link = sprintf(
+		'<a href="%s">%s</a>',
+		esc_url( admin_url( 'options-general.php?page=' . HDY_LOGIN_BRANDING_SLUG ) ),
+		esc_html__( 'Settings', 'hdy-login-branding' )
+	);
+
+	array_unshift( $links, $settings_link );
+
+	return $links;
+}
+add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'hdylb_plugin_action_links' );
 
 /**
  * Adds plugin row meta links.
@@ -476,7 +495,7 @@ add_filter( 'login_headerurl', 'custom_login_logo_header_url' );
  * @param string $file  Plugin basename being filtered.
  * @return array
  */
-function custom_login_logo_plugin_row_meta( $links, $file ) {
+function hdylb_plugin_row_meta( $links, $file ) {
 	if ( plugin_basename( __FILE__ ) !== $file ) {
 		return $links;
 	}
@@ -489,4 +508,4 @@ function custom_login_logo_plugin_row_meta( $links, $file ) {
 
 	return $links;
 }
-add_filter( 'plugin_row_meta', 'custom_login_logo_plugin_row_meta', 10, 2 );
+add_filter( 'plugin_row_meta', 'hdylb_plugin_row_meta', 10, 2 );
