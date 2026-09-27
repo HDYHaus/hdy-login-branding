@@ -4,21 +4,22 @@ Tags: login, logo, branding, admin
 Requires at least: 5.8
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.1-rc.2
+Stable tag: 1.2.0-rc.1
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Brand WordPress login, registration, and password-recovery screens from Settings.
-Built by HDY Haus (https://hdyhaus.com).
+Built by HDY Haus (https://hdyhaus.com/wp-plugins/hdy-login-branding/).
 
 == Description ==
-Customize the WordPress login screen without touching code.
+Customize WordPress login, registration, and password-recovery screens without touching code.
 
 Features:
 * Enable or disable the custom login logo.
 * Choose a logo from the Media Library.
 * Logo links to the site homepage when enabled.
 * Customize the login page background color.
+* Choose a responsive login page background image from the Media Library.
 * Customize the login button label, background, and text color.
 * Customize registration heading and button text.
 * Customize lost-password and reset-password instructions and button text.
@@ -30,7 +31,7 @@ Features:
 1. Upload the `hdy-login-branding` folder to `/wp-content/plugins/` Or in your WordPress admin, go to Plugins > Add New > Upload.
 2. Activate the plugin through the Plugins screen in WordPress.
 3. Go to Settings > HDY Login Branding.
-4. Enable the logo and select an image from the Media Library.
+4. Choose your logo, optional background image, colors, instructions, and button labels.
 
 == Frequently Asked Questions ==
 = What size should the logo be? =
@@ -39,12 +40,19 @@ The login screen uses a 320x120 box. Larger images are scaled to fit.
 = Where does the logo link to? =
 When the custom logo is enabled and set, it links to the homepage.
 
+= How is the background image displayed? =
+The selected image is centered and scaled to cover the authentication screen. The configured background color remains as a fallback while the image loads. Removing the image restores the color-only or default WordPress background.
+
 == Screenshots ==
-1. Plugin settings page with custom logo selection and preview.
-2. Color picker settings for login page background and login button styles.
-3. Customized WordPress login page with branded logo, background, and button text.
+1. Shared Branding settings with logo and background-image selection.
+2. Per-flow text and color controls with the live preview.
+3. Customized WordPress authentication screen with branded logo, background, and button text.
 
 == Changelog ==
+= 1.2.0-rc.1 =
+* Added a responsive login page background image selected from the Media Library.
+* Added live background image preview and remove/reset controls.
+
 = 1.1.1-rc.2 =
 * Keep the selected branding tab open after saving settings.
 

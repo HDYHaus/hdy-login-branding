@@ -1,10 +1,13 @@
 jQuery(function ($) {
-  var frame;
+  var frames = {};
   var $select = $('#hdy-login-branding-select');
   var $remove = $('#hdy-login-branding-remove');
   var $id = $('#hdy-login-branding-id');
   var $preview = $('#hdy-login-branding-preview');
-  var $previewWrap = $('.hdy-login-branding-preview');
+  var $previewWrap = $preview.closest('.hdy-login-branding-preview');
+  var $backgroundId = $('#hdy-login-branding-background-image-id');
+  var $backgroundPreview = $('#hdy-login-branding-background-preview');
+  var $backgroundPreviewWrap = $backgroundPreview.closest('.hdy-login-branding-background-preview');
   var $colorPicker = $('.hdy-login-branding-color');
   var $form = $('#hdylb-form');
   var $tabs = $('.hdylb-tabs a');
@@ -59,7 +62,11 @@ jQuery(function ($) {
     var customLogo = $form.find('[name="hdylb_enabled"]:checkbox').prop('checked');
     var logo = customLogo ? ($preview.attr('src') || $livePreview.attr('data-theme-logo')) : '';
     $('.hdylb-preview-logo').attr('src', logo || $livePreview.attr('data-default-logo'));
-    $('.hdylb-preview-stage').css('background-color', colors.background_color);
+    var backgroundImage = $backgroundPreview.attr('src') || '';
+    $('.hdylb-preview-stage').css({
+      backgroundColor: colors.background_color,
+      backgroundImage: backgroundImage ? 'url("' + backgroundImage.replace(/"/g, '%22') + '")' : 'none'
+    });
     $('.hdylb-preview-message').text(message).prop('hidden', !message);
     $('.hdylb-preview-button').text(value(keys[flow].button) || copy.button).css({
       backgroundColor: colors.button_color, color: colors.button_text_color
@@ -156,39 +163,40 @@ jQuery(function ($) {
   activate(location.hash.replace('#hdylb-panel-', ''), false);
   ready = true;
 
-  $select.on('click', function (event) {
-    event.preventDefault();
+  function bindImagePicker(key, $selectButton, $removeButton, $field, $image, $wrap, title, button) {
+    $selectButton.on('click', function (event) {
+      event.preventDefault();
 
-    if (frame) {
-      frame.open();
-      return;
-    }
+      if (!frames[key]) {
+        frames[key] = wp.media({
+          title: title,
+          button: { text: button },
+          library: { type: 'image' },
+          multiple: false
+        });
+        frames[key].on('select', function () {
+          var attachment = frames[key].state().get('selection').first().toJSON();
+          $field.val(attachment.id);
+          $image.attr('src', attachment.url);
+          $wrap.removeClass('is-empty').addClass('is-set');
+          $removeButton.prop('disabled', false);
+          changed();
+        });
+      }
 
-    frame = wp.media({
-      title: hdyLoginBranding.title,
-      button: { text: hdyLoginBranding.button },
-      library: { type: 'image' },
-      multiple: false
+      frames[key].open();
     });
 
-    frame.on('select', function () {
-      var attachment = frame.state().get('selection').first().toJSON();
-      $id.val(attachment.id);
-      $preview.attr('src', attachment.url);
-      $previewWrap.removeClass('is-empty').addClass('is-set');
-      $remove.prop('disabled', false);
+    $removeButton.on('click', function (event) {
+      event.preventDefault();
+      $field.val('');
+      $image.attr('src', '');
+      $wrap.removeClass('is-set').addClass('is-empty');
+      $removeButton.prop('disabled', true);
       changed();
     });
+  }
 
-    frame.open();
-  });
-
-  $remove.on('click', function (event) {
-    event.preventDefault();
-    $id.val('');
-    $preview.attr('src', '');
-    $previewWrap.removeClass('is-set').addClass('is-empty');
-    $remove.prop('disabled', true);
-    changed();
-  });
+  bindImagePicker('logo', $select, $remove, $id, $preview, $previewWrap, hdyLoginBranding.logoTitle, hdyLoginBranding.logoButton);
+  bindImagePicker('background', $('#hdy-login-branding-background-select'), $('#hdy-login-branding-background-remove'), $backgroundId, $backgroundPreview, $backgroundPreviewWrap, hdyLoginBranding.backgroundTitle, hdyLoginBranding.backgroundButton);
 });

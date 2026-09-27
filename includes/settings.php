@@ -106,6 +106,8 @@ function hdylb_render_settings_page() {
 	$logo_id    = (int) get_option( HDY_LOGIN_BRANDING_OPTION_ID, 0 );
 	$logo_url   = $logo_id ? wp_get_attachment_image_url( $logo_id, 'full' ) : '';
 	$theme_logo = wp_get_attachment_image_url( (int) get_theme_mod( 'custom_logo' ), 'full' );
+	$background_image_id  = (int) get_option( HDY_LOGIN_BRANDING_OPTION_BACKGROUND_IMAGE_ID, 0 );
+	$background_image_url = $background_image_id ? wp_get_attachment_image_url( $background_image_id, 'full' ) : '';
 	$tabs       = array(
 		'shared'   => __( 'Shared Branding', 'hdy-login-branding' ),
 		'login'    => __( 'Login', 'hdy-login-branding' ),
@@ -141,6 +143,19 @@ function hdylb_render_settings_page() {
 							</div>
 							<p class="description"><?php echo $theme_logo ? esc_html__( 'With no image selected, the enabled custom logo uses your theme logo.', 'hdy-login-branding' ) : esc_html__( 'With no image selected, the WordPress logo remains.', 'hdy-login-branding' ); ?></p>
 						</div>
+						<fieldset class="hdylb-field hdylb-media-field">
+							<legend><?php esc_html_e( 'Login page background image', 'hdy-login-branding' ); ?></legend>
+							<input type="hidden" id="hdy-login-branding-background-image-id" name="hdylb_background_image_id" value="<?php echo esc_attr( $background_image_id ); ?>">
+							<div class="hdy-login-branding-actions">
+								<button type="button" class="button" id="hdy-login-branding-background-select"><?php esc_html_e( 'Select background image', 'hdy-login-branding' ); ?></button>
+								<button type="button" class="button" id="hdy-login-branding-background-remove" <?php disabled( 0, $background_image_id ); ?>><?php esc_html_e( 'Remove background image', 'hdy-login-branding' ); ?></button>
+							</div>
+							<div class="hdy-login-branding-preview hdy-login-branding-background-preview <?php echo $background_image_url ? 'is-set' : 'is-empty'; ?>">
+								<img id="hdy-login-branding-background-preview" src="<?php echo esc_url( $background_image_url ); ?>" alt="<?php esc_attr_e( 'Selected login background', 'hdy-login-branding' ); ?>">
+								<p class="hdy-login-branding-placeholder"><?php esc_html_e( 'No background image selected.', 'hdy-login-branding' ); ?></p>
+							</div>
+							<p class="description"><?php esc_html_e( 'The image is centered and scaled to cover the authentication screen. Remove it to return to the configured background color or WordPress default.', 'hdy-login-branding' ); ?></p>
+						</fieldset>
 						<?php hdylb_color_controls( 'shared' ); ?>
 					</section>
 					<section id="hdylb-panel-login" class="hdylb-panel" aria-labelledby="hdylb-tab-login">

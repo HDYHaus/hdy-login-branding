@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: HDY Login Branding
- * Plugin URI: https://hdyhaus.com/wp-plugins/custom-login-logo/
+ * Plugin URI: https://hdyhaus.com/wp-plugins/hdy-login-branding/
  * Description: Brand WordPress login, registration, and password-recovery screens from Settings.
- * Version: 1.1.1-rc.2
+ * Version: 1.2.0-rc.1
  * Author: HDY Haus
- * Author URI: https://hdyhaus.com
+ * Author URI: https://hdyhaus.com/wp-plugins/hdy-login-branding/
  * License: GPL-3.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain: hdy-login-branding
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HDY_LOGIN_BRANDING_VERSION', '1.1.1-rc.2' );
+define( 'HDY_LOGIN_BRANDING_VERSION', '1.2.0-rc.1' );
 define( 'HDY_LOGIN_BRANDING_SLUG', 'hdy-login-branding' );
 define( 'HDY_LOGIN_BRANDING_OPTION_ENABLED', 'hdylb_enabled' );
 define( 'HDY_LOGIN_BRANDING_OPTION_ID', 'hdylb_id' );
@@ -23,6 +23,7 @@ define( 'HDY_LOGIN_BRANDING_OPTION_BUTTON_COLOR', 'hdylb_button_color' );
 define( 'HDY_LOGIN_BRANDING_OPTION_BUTTON_TEXT', 'hdylb_button_text' );
 define( 'HDY_LOGIN_BRANDING_OPTION_BUTTON_TEXT_COLOR', 'hdylb_button_text_color' );
 define( 'HDY_LOGIN_BRANDING_OPTION_BACKGROUND_COLOR', 'hdylb_background_color' );
+define( 'HDY_LOGIN_BRANDING_OPTION_BACKGROUND_IMAGE_ID', 'hdylb_background_image_id' );
 define( 'HDY_LOGIN_BRANDING_OPTION_REGISTRATION_HEADING', 'hdylb_registration_heading' );
 define( 'HDY_LOGIN_BRANDING_OPTION_REGISTRATION_BUTTON_TEXT', 'hdylb_registration_button_text' );
 define( 'HDY_LOGIN_BRANDING_OPTION_LOST_PASSWORD_MESSAGE', 'hdylb_lost_password_message' );
@@ -76,6 +77,16 @@ function hdylb_register_settings() {
 		array(
 			'type'              => 'integer',
 			'sanitize_callback' => 'hdylb_sanitize_logo_id',
+			'default'           => 0,
+		)
+	);
+
+	register_setting(
+		HDY_LOGIN_BRANDING_SLUG,
+		HDY_LOGIN_BRANDING_OPTION_BACKGROUND_IMAGE_ID,
+		array(
+			'type'              => 'integer',
+			'sanitize_callback' => 'hdylb_sanitize_image_id',
 			'default'           => 0,
 		)
 	);
@@ -160,6 +171,16 @@ function hdylb_sanitize_enabled( $value ) {
  * @return int
  */
 function hdylb_sanitize_logo_id( $value ) {
+	return hdylb_sanitize_image_id( $value );
+}
+
+/**
+ * Sanitizes an image attachment ID.
+ *
+ * @param mixed $value Setting value.
+ * @return int
+ */
+function hdylb_sanitize_image_id( $value ) {
 	$value = absint( $value );
 
 	if ( ! $value ) {
@@ -264,8 +285,10 @@ function hdylb_admin_assets( $hook ) {
 		'hdy-login-branding-admin',
 		'hdyLoginBranding',
 		array(
-			'title'           => esc_html__( 'Select Login Logo', 'hdy-login-branding' ),
-			'button'          => esc_html__( 'Use this logo', 'hdy-login-branding' ),
+			'logoTitle'       => esc_html__( 'Select Login Logo', 'hdy-login-branding' ),
+			'logoButton'      => esc_html__( 'Use this logo', 'hdy-login-branding' ),
+			'backgroundTitle' => esc_html__( 'Select Login Background', 'hdy-login-branding' ),
+			'backgroundButton' => esc_html__( 'Use this image', 'hdy-login-branding' ),
 			'unsaved'         => __( 'Unsaved changes', 'hdy-login-branding' ),
 			'contrastPass'    => __( 'Button contrast meets 4.5:1 for normal text.', 'hdy-login-branding' ),
 			'contrastFail'    => __( 'Button contrast is below 4.5:1. Choose a darker background or a lighter text color, or vice versa.', 'hdy-login-branding' ),
@@ -458,10 +481,20 @@ function hdylb_login_styles() {
 
 		if ( $background_color ) {
 			$css .= sprintf(
-				'body.login{background-color:%1$s;background-image:none;}',
+				'body.login{background-color:%1$s;}',
 				$background_color
 			);
 		}
+	}
+
+	$background_image_id  = (int) get_option( HDY_LOGIN_BRANDING_OPTION_BACKGROUND_IMAGE_ID, 0 );
+	$background_image_url = $background_image_id ? wp_get_attachment_image_url( $background_image_id, 'full' ) : '';
+
+	if ( $background_image_url ) {
+		$css .= sprintf(
+			'body.login{background-image:url("%s");background-position:center;background-repeat:no-repeat;background-size:cover;}',
+			esc_url( $background_image_url )
+		);
 	}
 
 	if ( '' !== $css ) {
@@ -521,25 +554,3 @@ function hdylb_plugin_action_links( $links ) {
 	return $links;
 }
 add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'hdylb_plugin_action_links' );
-
-/**
- * Adds plugin row meta links.
- *
- * @param array  $links Existing plugin row links.
- * @param string $file  Plugin basename being filtered.
- * @return array
- */
-function hdylb_plugin_row_meta( $links, $file ) {
-	if ( plugin_basename( __FILE__ ) !== $file ) {
-		return $links;
-	}
-
-	$links[] = sprintf(
-		'<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-		esc_url( 'https://hdyhaus.com/wp-plugins/custom-login-logo/' ),
-		esc_html__( 'View details', 'hdy-login-branding' )
-	);
-
-	return $links;
-}
-add_filter( 'plugin_row_meta', 'hdylb_plugin_row_meta', 10, 2 );

@@ -19,6 +19,15 @@
   display: block;
 }
 
+.hdy-login-branding-background-preview {
+  max-width: 320px;
+}
+
+.hdy-login-branding-background-preview img {
+  height: 140px;
+  object-fit: cover;
+}
+
 .hdy-login-branding-preview.is-empty img {
   display: none;
 }
@@ -43,6 +52,8 @@
 .hdylb-panel { padding: 12px 0; }
 .hdylb-field { margin: 16px 0; }
 .hdylb-field > label { display: block; font-weight: 600; margin-bottom: 6px; }
+.hdylb-media-field { border: 0; padding: 0; }
+.hdylb-media-field > legend { font-weight: 600; margin-bottom: 6px; padding: 0; }
 .hdylb-field > input[type="text"], .hdylb-field textarea { width: 100%; max-width: 480px; }
 .hdylb-field textarea { resize: vertical; }
 .hdylb-field .description { max-width: 480px; margin-top: 6px; }
@@ -54,7 +65,7 @@
 .hdylb-preview { position: sticky; top: 48px; min-width: 0; padding-top: 12px; }
 .hdylb-preview > label { display: block; margin-bottom: 6px; }
 .hdylb-preview > select { width: 100%; margin-bottom: 12px; }
-.hdylb-preview-stage { border: 1px solid #c3c4c7; padding: 24px 20px; min-height: 330px; overflow-wrap: anywhere; }
+.hdylb-preview-stage { border: 1px solid #c3c4c7; padding: 24px 20px; min-height: 330px; overflow-wrap: anywhere; background-position: center; background-repeat: no-repeat; background-size: cover; }
 .hdylb-preview-logo { display: block; height: 72px; width: 100%; object-fit: contain; margin: 0 auto 20px; }
 .hdylb-preview-message { background: #fff; border-left: 4px solid #72aee6; padding: 10px; color: #3c434a; }
 .hdylb-preview-form { background: #fff; border: 1px solid #c3c4c7; padding: 16px; color: #3c434a; }

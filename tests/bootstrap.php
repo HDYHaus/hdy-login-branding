@@ -8,7 +8,9 @@ function plugin_basename( $file ) { return basename( $file ); }
 function plugin_dir_url( $file ) { return '/'; }
 function get_option( $key, $default = false ) { return $GLOBALS['test_options'][ $key ] ?? $default; }
 function get_theme_mod() { return 0; }
-function wp_get_attachment_image_url() { return ''; }
+function wp_get_attachment_image_url( $id ) { return $GLOBALS['test_attachment_urls'][ $id ] ?? ''; }
+function wp_attachment_is_image( $id ) { return ! empty( $GLOBALS['test_image_ids'][ $id ] ); }
+function absint( $value ) { return abs( (int) $value ); }
 function current_user_can() { return true; }
 function __( $text, $domain = '' ) { return $text; }
 function esc_html( $text ) { return htmlspecialchars( (string) $text, ENT_QUOTES, 'UTF-8' ); }
@@ -27,6 +29,10 @@ function admin_url( $path ) { return '/?asset=logo'; }
 function wp_enqueue_media() {}
 function wp_enqueue_style() {}
 function wp_enqueue_script() {}
+function wp_register_script() {}
+function wp_add_inline_script() {}
+function wp_json_encode( $value ) { return json_encode( $value ); }
+function wp_add_inline_style( $handle, $css ) { $GLOBALS['test_inline_styles'][ $handle ] = $css; }
 function wp_localize_script( $handle, $name, $data ) { $GLOBALS['test_localized'] = $data; }
 function sanitize_hex_color( $value ) { return preg_match( '/^#([a-f0-9]{3}|[a-f0-9]{6})$/i', $value ) ? $value : ''; }
 function sanitize_text_field( $value ) { return trim( strip_tags( $value ) ); }
