@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name: HDY Login Branding
- * Plugin URI: https://hdyhaus.com/wp-plugins/hdy-login-branding/
- * Description: Brand the WordPress login screen from Settings with a Media Library image toggle.
- * Version: 1.0.3
+ * Plugin URI: https://hdyhaus.com/wp-plugins/custom-login-logo/
+ * Description: Brand WordPress login, registration, and password-recovery screens from Settings.
+ * Version: 1.1.1-rc.2
  * Author: HDY Haus
  * Author URI: https://hdyhaus.com
  * License: GPL-3.0-or-later
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HDY_LOGIN_BRANDING_VERSION', '1.0.3' );
+define( 'HDY_LOGIN_BRANDING_VERSION', '1.1.1-rc.2' );
 define( 'HDY_LOGIN_BRANDING_SLUG', 'hdy-login-branding' );
 define( 'HDY_LOGIN_BRANDING_OPTION_ENABLED', 'hdylb_enabled' );
 define( 'HDY_LOGIN_BRANDING_OPTION_ID', 'hdylb_id' );
@@ -23,6 +23,14 @@ define( 'HDY_LOGIN_BRANDING_OPTION_BUTTON_COLOR', 'hdylb_button_color' );
 define( 'HDY_LOGIN_BRANDING_OPTION_BUTTON_TEXT', 'hdylb_button_text' );
 define( 'HDY_LOGIN_BRANDING_OPTION_BUTTON_TEXT_COLOR', 'hdylb_button_text_color' );
 define( 'HDY_LOGIN_BRANDING_OPTION_BACKGROUND_COLOR', 'hdylb_background_color' );
+define( 'HDY_LOGIN_BRANDING_OPTION_REGISTRATION_HEADING', 'hdylb_registration_heading' );
+define( 'HDY_LOGIN_BRANDING_OPTION_REGISTRATION_BUTTON_TEXT', 'hdylb_registration_button_text' );
+define( 'HDY_LOGIN_BRANDING_OPTION_LOST_PASSWORD_MESSAGE', 'hdylb_lost_password_message' );
+define( 'HDY_LOGIN_BRANDING_OPTION_LOST_PASSWORD_BUTTON_TEXT', 'hdylb_lost_password_button_text' );
+define( 'HDY_LOGIN_BRANDING_OPTION_RESET_PASSWORD_MESSAGE', 'hdylb_reset_password_message' );
+define( 'HDY_LOGIN_BRANDING_OPTION_RESET_PASSWORD_BUTTON_TEXT', 'hdylb_reset_password_button_text' );
+
+require_once __DIR__ . '/includes/settings.php';
 
 /**
  * Registers plugin settings.
@@ -30,65 +38,108 @@ define( 'HDY_LOGIN_BRANDING_OPTION_BACKGROUND_COLOR', 'hdylb_background_color' )
  * @return void
  */
 function hdylb_register_settings() {
+	foreach ( array( 'login', 'register', 'lostpassword', 'resetpass' ) as $flow ) {
+		register_setting(
+			HDY_LOGIN_BRANDING_SLUG,
+			'hdylb_' . $flow . '_shared',
+			array(
+				'type'              => 'boolean',
+				'sanitize_callback' => 'hdylb_sanitize_enabled',
+				'default'           => 1,
+			)
+		);
+		foreach ( array( 'background_color', 'button_color', 'button_text_color' ) as $color ) {
+			register_setting(
+				HDY_LOGIN_BRANDING_SLUG,
+				'hdylb_' . $flow . '_' . $color,
+				array(
+					'type'              => 'string',
+					'sanitize_callback' => 'hdylb_sanitize_button_color',
+					'default'           => '',
+				)
+			);
+		}
+	}
 	register_setting(
 		HDY_LOGIN_BRANDING_SLUG,
 		HDY_LOGIN_BRANDING_OPTION_ENABLED,
-		[
+		array(
 			'type'              => 'boolean',
 			'sanitize_callback' => 'hdylb_sanitize_enabled',
 			'default'           => 0,
-		]
+		)
 	);
 
 	register_setting(
 		HDY_LOGIN_BRANDING_SLUG,
 		HDY_LOGIN_BRANDING_OPTION_ID,
-		[
+		array(
 			'type'              => 'integer',
 			'sanitize_callback' => 'hdylb_sanitize_logo_id',
 			'default'           => 0,
-		]
+		)
 	);
 
 	register_setting(
 		HDY_LOGIN_BRANDING_SLUG,
 		HDY_LOGIN_BRANDING_OPTION_BUTTON_COLOR,
-		[
+		array(
 			'type'              => 'string',
 			'sanitize_callback' => 'hdylb_sanitize_button_color',
 			'default'           => '',
-		]
+		)
 	);
 
 	register_setting(
 		HDY_LOGIN_BRANDING_SLUG,
 		HDY_LOGIN_BRANDING_OPTION_BUTTON_TEXT,
-		[
+		array(
 			'type'              => 'string',
 			'sanitize_callback' => 'hdylb_sanitize_button_text',
 			'default'           => '',
-		]
+		)
 	);
 
 	register_setting(
 		HDY_LOGIN_BRANDING_SLUG,
 		HDY_LOGIN_BRANDING_OPTION_BUTTON_TEXT_COLOR,
-		[
+		array(
 			'type'              => 'string',
 			'sanitize_callback' => 'hdylb_sanitize_button_color',
 			'default'           => '',
-		]
+		)
 	);
 
 	register_setting(
 		HDY_LOGIN_BRANDING_SLUG,
 		HDY_LOGIN_BRANDING_OPTION_BACKGROUND_COLOR,
-		[
+		array(
 			'type'              => 'string',
 			'sanitize_callback' => 'hdylb_sanitize_button_color',
 			'default'           => '',
-		]
+		)
 	);
+
+	$text_options = array(
+		HDY_LOGIN_BRANDING_OPTION_REGISTRATION_HEADING,
+		HDY_LOGIN_BRANDING_OPTION_REGISTRATION_BUTTON_TEXT,
+		HDY_LOGIN_BRANDING_OPTION_LOST_PASSWORD_MESSAGE,
+		HDY_LOGIN_BRANDING_OPTION_LOST_PASSWORD_BUTTON_TEXT,
+		HDY_LOGIN_BRANDING_OPTION_RESET_PASSWORD_MESSAGE,
+		HDY_LOGIN_BRANDING_OPTION_RESET_PASSWORD_BUTTON_TEXT,
+	);
+
+	foreach ( $text_options as $option_name ) {
+		register_setting(
+			HDY_LOGIN_BRANDING_SLUG,
+			$option_name,
+			array(
+				'type'              => 'string',
+				'sanitize_callback' => 'hdylb_sanitize_text',
+				'default'           => '',
+			)
+		);
+	}
 }
 add_action( 'admin_init', 'hdylb_register_settings' );
 
@@ -147,7 +198,21 @@ function hdylb_sanitize_button_color( $value ) {
  * @return string
  */
 function hdylb_sanitize_button_text( $value ) {
-	return sanitize_text_field( $value );
+	return hdylb_sanitize_text( $value );
+}
+
+/**
+ * Sanitizes a plain-text setting value.
+ *
+ * @param mixed $value Setting value.
+ * @return string
+ */
+function hdylb_sanitize_text( $value ) {
+	if ( ! is_scalar( $value ) ) {
+		return '';
+	}
+
+	return sanitize_text_field( (string) $value );
 }
 
 /**
@@ -183,14 +248,14 @@ function hdylb_admin_assets( $hook ) {
 	wp_enqueue_style(
 		'hdy-login-branding-admin',
 		plugin_dir_url( __FILE__ ) . 'assets/admin.css',
-		[],
+		array(),
 		HDY_LOGIN_BRANDING_VERSION
 	);
 
 	wp_enqueue_script(
 		'hdy-login-branding-admin',
 		plugin_dir_url( __FILE__ ) . 'assets/admin.js',
-		[ 'jquery', 'wp-color-picker' ],
+		array( 'jquery', 'wp-color-picker' ),
 		HDY_LOGIN_BRANDING_VERSION,
 		true
 	);
@@ -198,166 +263,135 @@ function hdylb_admin_assets( $hook ) {
 	wp_localize_script(
 		'hdy-login-branding-admin',
 		'hdyLoginBranding',
-		[
-			'title'  => esc_html__( 'Select Login Logo', 'hdy-login-branding' ),
-			'button' => esc_html__( 'Use this logo', 'hdy-login-branding' ),
-		]
+		array(
+			'title'           => esc_html__( 'Select Login Logo', 'hdy-login-branding' ),
+			'button'          => esc_html__( 'Use this logo', 'hdy-login-branding' ),
+			'unsaved'         => __( 'Unsaved changes', 'hdy-login-branding' ),
+			'contrastPass'    => __( 'Button contrast meets 4.5:1 for normal text.', 'hdy-login-branding' ),
+			'contrastFail'    => __( 'Button contrast is below 4.5:1. Choose a darker background or a lighter text color, or vice versa.', 'hdy-login-branding' ),
+			'contrastInvalid' => __( 'Enter a valid hex color to preview it. Invalid colors will not be saved.', 'hdy-login-branding' ),
+			'username'        => __( 'Username or Email Address', 'hdy-login-branding' ),
+			'newPassword'     => __( 'New Password', 'hdy-login-branding' ),
+			'password'        => __( 'Password', 'hdy-login-branding' ),
+			'email'           => __( 'Email', 'hdy-login-branding' ),
+			'defaults'        => array(
+				'login'        => array(
+					'message' => '',
+					'button'  => __( 'Log In', 'hdy-login-branding' ),
+				),
+				'register'     => array(
+					'message' => __( 'Register For This Site', 'hdy-login-branding' ),
+					'button'  => __( 'Register', 'hdy-login-branding' ),
+				),
+				'lostpassword' => array(
+					'message' => __( 'Please enter your username or email address. You will receive an email message with instructions on how to reset your password.', 'hdy-login-branding' ),
+					'button'  => __( 'Get New Password', 'hdy-login-branding' ),
+				),
+				'resetpass'    => array(
+					'message' => __( 'Enter your new password below or generate one.', 'hdy-login-branding' ),
+					'button'  => __( 'Save Password', 'hdy-login-branding' ),
+				),
+			),
+		)
 	);
 }
 add_action( 'admin_enqueue_scripts', 'hdylb_admin_assets' );
 
+
 /**
- * Renders plugin settings page.
+ * Returns the current WordPress login action with equivalent actions normalized.
  *
- * @return void
+ * @return string
  */
-function hdylb_render_settings_page() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		return;
+function hdylb_get_login_action() {
+	if ( isset( $GLOBALS['action'] ) && is_string( $GLOBALS['action'] ) ) {
+		$action = sanitize_key( $GLOBALS['action'] );
+	} else {
+		$action = 'login';
 	}
 
-	$enabled           = (int) get_option( HDY_LOGIN_BRANDING_OPTION_ENABLED, 0 );
-	$logo_id           = (int) get_option( HDY_LOGIN_BRANDING_OPTION_ID, 0 );
-	$logo_url          = $logo_id ? wp_get_attachment_image_url( $logo_id, 'full' ) : '';
-	$preview_class     = $logo_url ? 'is-set' : 'is-empty';
-	$button_color      = (string) get_option( HDY_LOGIN_BRANDING_OPTION_BUTTON_COLOR, '' );
-	$button_text       = (string) get_option( HDY_LOGIN_BRANDING_OPTION_BUTTON_TEXT, '' );
-	$button_text_color = (string) get_option( HDY_LOGIN_BRANDING_OPTION_BUTTON_TEXT_COLOR, '' );
-	$background_color  = (string) get_option( HDY_LOGIN_BRANDING_OPTION_BACKGROUND_COLOR, '' );
-	$theme_logo_id     = (int) get_theme_mod( 'custom_logo' );
-	$theme_logo_url    = $theme_logo_id ? wp_get_attachment_image_url( $theme_logo_id, 'full' ) : '';
-	?>
-	<div class="wrap">
-		<h1><?php echo esc_html__( 'HDY Login Branding', 'hdy-login-branding' ); ?></h1>
-		<?php if ( $enabled && ! $logo_id ) : ?>
-			<div class="notice notice-warning">
-				<p>
-					<?php
-					if ( $theme_logo_url ) {
-						echo esc_html__( 'Custom logo is enabled, but no image is selected. Your theme logo will be used until you choose a logo.', 'hdy-login-branding' );
-					} else {
-						echo esc_html__( 'Custom logo is enabled, but no image is selected. The default WordPress logo will remain until you choose a logo.', 'hdy-login-branding' );
-					}
-					?>
-				</p>
-			</div>
-		<?php endif; ?>
-		<form method="post" action="options.php">
-			<?php settings_fields( HDY_LOGIN_BRANDING_SLUG ); ?>
-			<table class="form-table" role="presentation">
-				<tr>
-					<th scope="row"><?php echo esc_html__( 'Enable custom logo', 'hdy-login-branding' ); ?></th>
-					<td>
-						<label>
-							<input
-								type="hidden"
-								name="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_ENABLED ); ?>"
-								value="0"
-							>
-							<input
-								type="checkbox"
-								name="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_ENABLED ); ?>"
-								value="1"
-								<?php checked( 1, $enabled ); ?>
-							>
-							<?php echo esc_html__( 'Replace the login logo with your selected image.', 'hdy-login-branding' ); ?>
-						</label>
-					</td>
-				</tr>
-				<tr>
-					<th scope="row"><?php echo esc_html__( 'Login logo', 'hdy-login-branding' ); ?></th>
-					<td>
-						<input
-							type="hidden"
-							id="hdy-login-branding-id"
-							name="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_ID ); ?>"
-							value="<?php echo esc_attr( $logo_id ); ?>"
-						>
-						<div class="hdy-login-branding-actions">
-							<button type="button" class="button" id="hdy-login-branding-select">
-								<?php echo esc_html__( 'Select logo', 'hdy-login-branding' ); ?>
-							</button>
-							<button type="button" class="button" id="hdy-login-branding-remove" <?php disabled( 0, $logo_id ); ?>>
-								<?php echo esc_html__( 'Remove logo', 'hdy-login-branding' ); ?>
-							</button>
-						</div>
-						<div class="hdy-login-branding-preview <?php echo esc_attr( $preview_class ); ?>">
-							<img
-								id="hdy-login-branding-preview"
-								src="<?php echo esc_url( $logo_url ); ?>"
-								alt="<?php echo esc_attr__( 'Login logo preview', 'hdy-login-branding' ); ?>"
-							>
-							<p class="hdy-login-branding-placeholder">
-								<?php echo esc_html__( 'No logo selected.', 'hdy-login-branding' ); ?>
-							</p>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<th scope="row"><?php echo esc_html__( 'Login page background color', 'hdy-login-branding' ); ?></th>
-					<td>
-						<input
-							type="text"
-							class="hdy-login-branding-color"
-							name="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_BACKGROUND_COLOR ); ?>"
-							value="<?php echo esc_attr( $background_color ); ?>"
-							data-default-color="#f0f0f1"
-						>
-						<p class="description">
-							<?php echo esc_html__( 'Leave blank to keep the default WordPress login background.', 'hdy-login-branding' ); ?>
-						</p>
-					</td>
-				</tr>
-				<tr>
-					<th scope="row"><?php echo esc_html__( 'Login button text', 'hdy-login-branding' ); ?></th>
-					<td>
-						<input
-							type="text"
-							class="regular-text"
-							name="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_BUTTON_TEXT ); ?>"
-							value="<?php echo esc_attr( $button_text ); ?>"
-						>
-						<p class="description">
-							<?php echo esc_html__( 'Leave blank to use the default "Log In" label.', 'hdy-login-branding' ); ?>
-						</p>
-					</td>
-				</tr>
-				<tr>
-					<th scope="row"><?php echo esc_html__( 'Login button background color', 'hdy-login-branding' ); ?></th>
-					<td>
-						<input
-							type="text"
-							class="hdy-login-branding-color"
-							name="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_BUTTON_COLOR ); ?>"
-							value="<?php echo esc_attr( $button_color ); ?>"
-							data-default-color="#2271b1"
-						>
-						<p class="description">
-							<?php echo esc_html__( 'Leave blank to keep the default WordPress button color.', 'hdy-login-branding' ); ?>
-						</p>
-					</td>
-				</tr>
-				<tr>
-					<th scope="row"><?php echo esc_html__( 'Login button text color', 'hdy-login-branding' ); ?></th>
-					<td>
-						<input
-							type="text"
-							class="hdy-login-branding-color"
-							name="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_BUTTON_TEXT_COLOR ); ?>"
-							value="<?php echo esc_attr( $button_text_color ); ?>"
-							data-default-color="#ffffff"
-						>
-						<p class="description">
-							<?php echo esc_html__( 'Leave blank to keep the default button text color.', 'hdy-login-branding' ); ?>
-						</p>
-					</td>
-				</tr>
-			</table>
-			<?php submit_button(); ?>
-		</form>
-	</div>
-	<?php
+	if ( 'retrievepassword' === $action ) {
+		return 'lostpassword';
+	}
+
+	if ( 'rp' === $action ) {
+		return 'resetpass';
+	}
+
+	return $action;
 }
+
+/**
+ * Returns custom button text for the current login action.
+ *
+ * @param string $action Login action.
+ * @return string
+ */
+function hdylb_get_button_text_for_action( $action ) {
+	$options = array(
+		'login'        => HDY_LOGIN_BRANDING_OPTION_BUTTON_TEXT,
+		'register'     => HDY_LOGIN_BRANDING_OPTION_REGISTRATION_BUTTON_TEXT,
+		'lostpassword' => HDY_LOGIN_BRANDING_OPTION_LOST_PASSWORD_BUTTON_TEXT,
+		'resetpass'    => HDY_LOGIN_BRANDING_OPTION_RESET_PASSWORD_BUTTON_TEXT,
+	);
+
+	if ( ! isset( $options[ $action ] ) ) {
+		return '';
+	}
+
+	return trim( hdylb_sanitize_text( get_option( $options[ $action ], '' ) ) );
+}
+
+/**
+ * Replaces the default prompt for supported authentication flows.
+ *
+ * @param string $message Existing login message markup.
+ * @return string
+ */
+function hdylb_filter_login_message( $message ) {
+	$messages = array(
+		'register'     => array(
+			'option'  => HDY_LOGIN_BRANDING_OPTION_REGISTRATION_HEADING,
+			// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- Match the translated WordPress core prompt.
+			'default' => __( 'Register For This Site', 'default' ),
+		),
+		'lostpassword' => array(
+			'option'  => HDY_LOGIN_BRANDING_OPTION_LOST_PASSWORD_MESSAGE,
+			// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- Match the translated WordPress core prompt.
+			'default' => __( 'Please enter your username or email address. You will receive an email message with instructions on how to reset your password.', 'default' ),
+		),
+		'resetpass'    => array(
+			'option'  => HDY_LOGIN_BRANDING_OPTION_RESET_PASSWORD_MESSAGE,
+			// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- Match the translated WordPress core prompt.
+			'default' => __( 'Enter your new password below or generate one.', 'default' ),
+		),
+	);
+	$action   = hdylb_get_login_action();
+
+	if ( ! isset( $messages[ $action ] ) ) {
+		return $message;
+	}
+
+	$custom_message = trim( hdylb_sanitize_text( get_option( $messages[ $action ]['option'], '' ) ) );
+
+	if ( '' === $custom_message ) {
+		return $message;
+	}
+
+	$default_message = esc_html( $messages[ $action ]['default'] );
+	$custom_message  = esc_html( $custom_message );
+
+	if ( false !== strpos( $message, $default_message ) ) {
+		return str_replace( $default_message, $custom_message, $message );
+	}
+
+	return sprintf(
+		'<div class="notice notice-info message"><p>%s</p></div>%s',
+		$custom_message,
+		$message
+	);
+}
+add_filter( 'login_message', 'hdylb_filter_login_message' );
 
 /**
  * Adds logo and button customizations to the login screen.
@@ -390,7 +424,8 @@ function hdylb_login_styles() {
 		}
 	}
 
-	$button_color = trim( (string) get_option( HDY_LOGIN_BRANDING_OPTION_BUTTON_COLOR, '' ) );
+	$colors       = hdylb_get_flow_colors( hdylb_get_login_action() );
+	$button_color = $colors['button_color'];
 
 	if ( '' !== $button_color ) {
 		$button_color = sanitize_hex_color( $button_color );
@@ -403,7 +438,7 @@ function hdylb_login_styles() {
 		}
 	}
 
-	$button_text_color = trim( (string) get_option( HDY_LOGIN_BRANDING_OPTION_BUTTON_TEXT_COLOR, '' ) );
+	$button_text_color = $colors['button_text_color'];
 
 	if ( '' !== $button_text_color ) {
 		$button_text_color = sanitize_hex_color( $button_text_color );
@@ -416,7 +451,7 @@ function hdylb_login_styles() {
 		}
 	}
 
-	$background_color = trim( (string) get_option( HDY_LOGIN_BRANDING_OPTION_BACKGROUND_COLOR, '' ) );
+	$background_color = $colors['background_color'];
 
 	if ( '' !== $background_color ) {
 		$background_color = sanitize_hex_color( $background_color );
@@ -433,13 +468,12 @@ function hdylb_login_styles() {
 		wp_add_inline_style( 'login', $css );
 	}
 
-	$button_text = sanitize_text_field( (string) get_option( HDY_LOGIN_BRANDING_OPTION_BUTTON_TEXT, '' ) );
-	$button_text = trim( $button_text );
+	$button_text = hdylb_get_button_text_for_action( hdylb_get_login_action() );
 
 	if ( '' !== $button_text ) {
 		$script = 'document.addEventListener("DOMContentLoaded",function(){var btn=document.getElementById("wp-submit");if(btn){btn.value=' . wp_json_encode( $button_text ) . ';}});';
 
-		wp_register_script( 'hdy-login-branding-login', '', [], HDY_LOGIN_BRANDING_VERSION, true );
+		wp_register_script( 'hdy-login-branding-login', '', array(), HDY_LOGIN_BRANDING_VERSION, true );
 		wp_enqueue_script( 'hdy-login-branding-login' );
 		wp_add_inline_script( 'hdy-login-branding-login', $script );
 	}
@@ -502,7 +536,7 @@ function hdylb_plugin_row_meta( $links, $file ) {
 
 	$links[] = sprintf(
 		'<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-		esc_url( 'https://hdyhaus.com/wp-plugins/hdy-login-branding/' ),
+		esc_url( 'https://hdyhaus.com/wp-plugins/custom-login-logo/' ),
 		esc_html__( 'View details', 'hdy-login-branding' )
 	);
 

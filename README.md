@@ -1,8 +1,8 @@
 # HDY Login Branding
 
-HDY Login Branding is a simple WordPress plugin for customizing the login screen from the WordPress admin.
+HDY Login Branding customizes WordPress login, registration, and password-recovery screens from the WordPress admin.
 
-Use it to replace the default WordPress logo, choose login page colors, and change the login button text without editing theme files or writing custom code.
+Use it to replace the default WordPress logo, choose shared or per-page colors, and customize authentication instructions and button labels without editing theme files.
 
 ## Plugin Details
 
@@ -22,6 +22,21 @@ Use it to replace the default WordPress logo, choose login page colors, and chan
 - Change the login button text.
 - Change the login button background and text colors.
 - Manage everything from **Settings > HDY Login Branding**.
+- Use four keyboard-accessible tabs: Shared Branding, Login, Registration, and Password Recovery.
+- Customize registration headings and lost/reset-password instructions and button labels.
+- Override background, button background, and button text colors for each flow, or inherit shared colors.
+- Preview changes with button contrast feedback and an unsaved-changes warning.
+- Stay on the selected settings tab after saving.
+
+## Settings
+
+**Shared Branding** controls the logo and default colors for authentication screens. Existing saved logo and color settings remain compatible.
+
+**Login** controls the login button label and optional colors. **Registration** controls its heading, button label, and optional colors. **Password Recovery** has separate lost-password and reset-password text and color controls.
+
+Each flow starts with **Use shared colors** enabled. Disable it to set that flow's colors. Blank color overrides inherit the corresponding shared color; enabling inheritance again retains saved overrides. Blank text fields preserve WordPress default copy.
+
+Switch tabs with arrow keys or Home/End. All settings share one Save all changes button, and switching tabs keeps unsaved edits. Without JavaScript, all sections remain visible. The preview illustrates branding, not third-party registration fields; verify the actual pages for integration behavior.
 
 ## Installation
 
@@ -48,11 +63,19 @@ Run these checks before packaging a release:
 
 ```bash
 php -l hdy-login-branding.php
+php -l includes/settings.php
+php tests/colors.php
+node --check assets/admin.js
+node tests/save-tab.cjs
 git diff --check
 rg -n "custom_login_logo|customLoginLogo|HDY_CUSTOM_LOGIN_LOGO" .
 ```
 
 Release packages should be published with the clean filename `hdy-login-branding.zip`, even when the plugin version is `1.0.3` or later.
+
+The PHP regression harness uses WordPress stubs, not a live database. The JavaScript regression checks the save return URL, not a complete browser round trip. Also run official Plugin Check and verify real authentication pages, third-party registration fields, keyboard navigation, and mobile layouts on a development site.
+
+See [release notes and validation status](docs/release-1.1.1-rc.2.md). The current candidate is for testing; GitHub preparation does not authorize WordPress.org publication.
 
 ## License
 
