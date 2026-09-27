@@ -1,14 +1,14 @@
 === HDY Login Branding ===
-Contributors: hdyhaus, MaryOJob
+Contributors: mariaojob
 Tags: login, logo, branding, admin
 Requires at least: 5.8
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.3
+Stable tag: 1.1.1-rc.2
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Brand the WordPress login screen from Settings with a Media Library image toggle.
+Brand WordPress login, registration, and password-recovery screens from Settings.
 Built by HDY Haus (https://hdyhaus.com).
 
 == Description ==
@@ -20,6 +20,11 @@ Features:
 * Logo links to the site homepage when enabled.
 * Customize the login page background color.
 * Customize the login button label, background, and text color.
+* Customize registration heading and button text.
+* Customize lost-password and reset-password instructions and button text.
+* Organize settings with keyboard-accessible Shared Branding, Login, Registration, and Password Recovery tabs.
+* Use shared colors or override page background, button background, and button text colors per flow.
+* Preview changes with button contrast feedback before saving.
 
 == Installation ==
 1. Upload the `hdy-login-branding` folder to `/wp-content/plugins/` Or in your WordPress admin, go to Plugins > Add New > Upload.
@@ -40,6 +45,21 @@ When the custom logo is enabled and set, it links to the homepage.
 3. Customized WordPress login page with branded logo, background, and button text.
 
 == Changelog ==
+= 1.1.1-rc.2 =
+* Keep the selected branding tab open after saving settings.
+
+= 1.1.1-rc.1 =
+* Development test candidate; not a WordPress.org release.
+* Added accessible settings tabs, live preview, and unsaved-change protection.
+* Added per-flow color overrides while preserving existing shared colors.
+* Added button contrast feedback and responsive settings layouts.
+
+= 1.1.0 =
+* Organized settings into login, registration, and password-recovery sections.
+* Added registration heading and button text settings.
+* Added lost-password and reset-password instruction and button text settings.
+* Scoped custom button labels to their matching authentication flow.
+
 = 1.0.3 =
 * Added a Settings action link on the WordPress Plugins screen.
 
