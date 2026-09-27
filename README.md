@@ -2,7 +2,7 @@
 
 HDY Login Branding customizes WordPress login, registration, and password-recovery screens from the WordPress admin.
 
-Use it to replace the default WordPress logo, choose shared or per-page colors, and customize authentication instructions and button labels without editing theme files.
+Use it to replace the default WordPress logo, add a responsive background image, choose shared or per-page colors, and customize authentication instructions and button labels without editing theme files.
 
 ## Plugin Details
 
@@ -11,7 +11,7 @@ Use it to replace the default WordPress logo, choose shared or per-page colors, 
 - Text domain: `hdy-login-branding`
 - Main plugin file: `hdy-login-branding.php`
 - GitHub repo: https://github.com/HDYHaus/hdy-login-branding
-- Built by: [HDY Haus](https://hdyhaus.com)
+- Plugin page: [HDY Login Branding at HDY Haus](https://hdyhaus.com/wp-plugins/hdy-login-branding/)
 
 ## Features
 
@@ -45,7 +45,7 @@ Switch tabs with arrow keys or Home/End. All settings share one Save all changes
 2. In WordPress, go to **Plugins > Add New Plugin > Upload Plugin**.
 3. Upload the zip file.
 4. Activate **HDY Login Branding**.
-5. Go to **Settings > HDY Login Branding** and choose your logo, colors, and button text.
+5. Go to **Settings > HDY Login Branding** and choose your logo, optional background image, colors, instructions, and button labels.
 
 ## Development
 
@@ -56,7 +56,9 @@ The plugin uses namespaced, plugin-specific identifiers:
 - CSS classes, IDs, and script handles use the `hdy-login-branding-*` prefix.
 - JavaScript uses the `hdyLoginBranding` object.
 
-Screenshot files are not bundled in the runtime plugin package. WordPress.org screenshots should be uploaded separately to the plugin SVN `assets/` directory after approval.
+Tests, development documentation, and screenshot files are not bundled in the runtime plugin package. WordPress.org screenshots should be uploaded separately to the plugin SVN `assets/` directory after approval.
+
+The WordPress.org compatibility warning is controlled by `Tested up to` in `readme.txt`. The directory reads metadata from the version referenced by `Stable tag`, so both SVN `trunk/readme.txt` and the matching tagged release must contain the approved values before the public listing changes.
 
 ## Validation
 
@@ -73,11 +75,11 @@ git diff --check
 rg -n "custom_login_logo|customLoginLogo|HDY_CUSTOM_LOGIN_LOGO" .
 ```
 
-Release packages should be published with the clean filename `hdy-login-branding.zip`, even when the plugin version is `1.0.3` or later.
+Release packages should be published with the clean filename `hdy-login-branding.zip`.
 
 The PHP regression harness uses WordPress stubs, not a live database. The JavaScript regression checks the save return URL, not a complete browser round trip. Also run official Plugin Check and verify real authentication pages, third-party registration fields, keyboard navigation, and mobile layouts on a development site.
 
-See [release notes and validation status](docs/release-1.1.1-rc.2.md). The current candidate is for testing; GitHub preparation does not authorize WordPress.org publication.
+See [release notes and validation status](docs/release-1.2.0-rc.1.md). The current candidate is for testing; GitHub preparation does not authorize WordPress.org publication.
 
 ## License
 
