@@ -4,7 +4,7 @@ Tags: login, logo, branding, admin
 Requires at least: 5.8
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.0-rc.1
+Stable tag: 1.2.0
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -50,24 +50,14 @@ The selected image is centered and scaled to cover the authentication screen. Th
 3. Customized WordPress authentication screen with branded logo, background, and button text.
 
 == Changelog ==
-= 1.2.0-rc.1 =
-* Added a responsive login page background image selected from the Media Library.
-* Added live background image preview and remove/reset controls.
-
-= 1.1.1-rc.2 =
-* Keep the selected branding tab open after saving settings.
-
-= 1.1.1-rc.1 =
-* Development test candidate; not a WordPress.org release.
+= 1.2.0 =
+* Added a responsive authentication-screen background image selected from the Media Library, with live preview and remove/reset controls.
+* Added registration heading and button labels plus separate lost/reset-password instructions and button labels.
+* Organized settings into keyboard-accessible Shared Branding, Login, Registration, and Password Recovery tabs.
 * Added accessible settings tabs, live preview, and unsaved-change protection.
 * Added per-flow color overrides while preserving existing shared colors.
-* Added button contrast feedback and responsive settings layouts.
-
-= 1.1.0 =
-* Organized settings into login, registration, and password-recovery sections.
-* Added registration heading and button text settings.
-* Added lost-password and reset-password instruction and button text settings.
-* Scoped custom button labels to their matching authentication flow.
+* Added button contrast feedback, responsive settings layouts, and selected-tab persistence after saving.
+* Pointed plugin and author metadata to the HDY Login Branding product page without a duplicate View details link.
 
 = 1.0.3 =
 * Added a Settings action link on the WordPress Plugins screen.

@@ -1,6 +1,6 @@
-# HDY Login Branding 1.2.0-rc.1
+# HDY Login Branding 1.2.0
 
-Development release candidate for issues #10 and #12. Not a WordPress.org release.
+Production release for issues #10 and #12.
 
 ## Changes Since 1.0.3
 
@@ -19,7 +19,7 @@ Development release candidate for issues #10 and #12. Not a WordPress.org releas
 
 No option migration is required. Existing colors become shared defaults; per-flow overrides start disabled. Other authentication states retain shared styling without individual text settings. Blank overrides inherit the shared value. Sites without a selected background image retain their existing color-only or WordPress default background.
 
-The source readme declares `Tested up to: 7.1`. WordPress.org ignores patch numbers for this field, so this covers WordPress 7.1.2 after the approved readme and release tag are published to plugin SVN.
+The source readme declares `Tested up to: 7.1`. WordPress.org ignores patch numbers for this field, so this covers WordPress 7.1.2.
 
 ## Validation Record
 
@@ -32,8 +32,6 @@ The source readme declares `Tested up to: 7.1`. WordPress.org ignores patch numb
 - Registration and password-recovery screens were verified with the shared background image.
 - Removing the test image restored the previously saved color-only background.
 
-## Package And Release Boundary
+## Package
 
-The development package contains only runtime PHP, admin assets, `readme.txt`, and the license under a single `hdy-login-branding/` directory. Tests, GitHub documentation, release notes, and WordPress.org screenshot assets are excluded.
-
-Pull request #14 closes #10 when merged. Issue #12 was completed by pull request #13. A production release still requires final version metadata, a matching SVN tag, final-package validation, and explicit owner approval before publishing to WordPress.org.
+The production package contains only runtime PHP, admin assets, `readme.txt`, and the license under a single `hdy-login-branding/` directory. Tests, GitHub documentation, release notes, and WordPress.org screenshot assets are excluded.
