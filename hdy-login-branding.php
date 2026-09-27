@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: HDY Login Branding
- * Plugin URI: https://hdyhaus.com/wp-plugins/custom-login-logo/
+ * Plugin URI: https://hdyhaus.com/wp-plugins/hdy-login-branding/
  * Description: Brand WordPress login, registration, and password-recovery screens from Settings.
  * Version: 1.2.0-rc.1
  * Author: HDY Haus
- * Author URI: https://hdyhaus.com
+ * Author URI: https://hdyhaus.com/wp-plugins/hdy-login-branding/
  * License: GPL-3.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain: hdy-login-branding
@@ -554,25 +554,3 @@ function hdylb_plugin_action_links( $links ) {
 	return $links;
 }
 add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'hdylb_plugin_action_links' );
-
-/**
- * Adds plugin row meta links.
- *
- * @param array  $links Existing plugin row links.
- * @param string $file  Plugin basename being filtered.
- * @return array
- */
-function hdylb_plugin_row_meta( $links, $file ) {
-	if ( plugin_basename( __FILE__ ) !== $file ) {
-		return $links;
-	}
-
-	$links[] = sprintf(
-		'<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-		esc_url( 'https://hdyhaus.com/wp-plugins/custom-login-logo/' ),
-		esc_html__( 'View details', 'hdy-login-branding' )
-	);
-
-	return $links;
-}
-add_filter( 'plugin_row_meta', 'hdylb_plugin_row_meta', 10, 2 );
