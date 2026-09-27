@@ -3,7 +3,7 @@
  * Plugin Name: HDY Login Branding
  * Plugin URI: https://hdyhaus.com/wp-plugins/hdy-login-branding/
  * Description: Brand WordPress login, registration, and password-recovery screens from Settings.
- * Version: 1.2.0-rc.1
+ * Version: 1.2.0
  * Author: HDY Haus
  * Author URI: https://hdyhaus.com/wp-plugins/hdy-login-branding/
  * License: GPL-3.0-or-later
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HDY_LOGIN_BRANDING_VERSION', '1.2.0-rc.1' );
+define( 'HDY_LOGIN_BRANDING_VERSION', '1.2.0' );
 define( 'HDY_LOGIN_BRANDING_SLUG', 'hdy-login-branding' );
 define( 'HDY_LOGIN_BRANDING_OPTION_ENABLED', 'hdylb_enabled' );
 define( 'HDY_LOGIN_BRANDING_OPTION_ID', 'hdylb_id' );

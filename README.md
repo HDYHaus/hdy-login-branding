@@ -79,7 +79,7 @@ Release packages should be published with the clean filename `hdy-login-branding
 
 The PHP regression harness uses WordPress stubs, not a live database. The JavaScript regression checks the save return URL, not a complete browser round trip. Also run official Plugin Check and verify real authentication pages, third-party registration fields, keyboard navigation, and mobile layouts on a development site.
 
-See [release notes and validation status](docs/release-1.2.0-rc.1.md). The current candidate is for testing; GitHub preparation does not authorize WordPress.org publication.
+See [release notes and validation status](docs/release-1.2.0.md).
 
 ## License
 
