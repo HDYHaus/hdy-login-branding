@@ -19,6 +19,7 @@ Use it to replace the default WordPress logo, choose shared or per-page colors, 
 - Choose a logo from the WordPress Media Library.
 - Link the selected logo to your site homepage.
 - Change the login page background color.
+- Add a responsive login page background image from the WordPress Media Library.
 - Change the login button text.
 - Change the login button background and text colors.
 - Manage everything from **Settings > HDY Login Branding**.
@@ -30,7 +31,7 @@ Use it to replace the default WordPress logo, choose shared or per-page colors, 
 
 ## Settings
 
-**Shared Branding** controls the logo and default colors for authentication screens. Existing saved logo and color settings remain compatible.
+**Shared Branding** controls the logo, optional background image, and default colors for authentication screens. The background image is centered and scaled to cover the screen; the background color remains visible while the image loads and wherever the image does not cover. Existing saved logo and color settings remain compatible.
 
 **Login** controls the login button label and optional colors. **Registration** controls its heading, button label, and optional colors. **Password Recovery** has separate lost-password and reset-password text and color controls.
 
@@ -65,6 +66,7 @@ Run these checks before packaging a release:
 php -l hdy-login-branding.php
 php -l includes/settings.php
 php tests/colors.php
+php tests/background-image.php
 node --check assets/admin.js
 node tests/save-tab.cjs
 git diff --check

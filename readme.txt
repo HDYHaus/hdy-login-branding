@@ -19,6 +19,7 @@ Features:
 * Choose a logo from the Media Library.
 * Logo links to the site homepage when enabled.
 * Customize the login page background color.
+* Choose a responsive login page background image from the Media Library.
 * Customize the login button label, background, and text color.
 * Customize registration heading and button text.
 * Customize lost-password and reset-password instructions and button text.
