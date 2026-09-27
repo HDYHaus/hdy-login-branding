@@ -9,10 +9,11 @@ License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Brand WordPress login, registration, and password-recovery screens from Settings.
-Built by HDY Haus (https://hdyhaus.com/wp-plugins/hdy-login-branding/).
 
 == Description ==
 Customize WordPress login, registration, and password-recovery screens without touching code.
+
+Built by [HDY Haus](https://hdyhaus.com/wp-plugins/hdy-login-branding/).
 
 Features:
 * Enable or disable the custom login logo.
