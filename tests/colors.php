@@ -30,8 +30,8 @@ $html = ob_get_clean();
 $dom = new DOMDocument();
 @$dom->loadHTML( $html );
 $xpath = new DOMXPath( $dom );
-expect_same( 4, $xpath->query( '//section' )->length, 'Four sections render without JavaScript' );
-foreach ( $xpath->query( '//input[@type="text"] | //textarea' ) as $field ) {
+expect_same( 7, $xpath->query( '//section' )->length, 'All seven settings sections render without JavaScript' );
+foreach ( $xpath->query( '//input[@type="text"] | //input[@type="email"] | //input[@type="url"] | //textarea' ) as $field ) {
 	$id = $field->getAttribute( 'id' );
 	expect_same( 1, $xpath->query( '//label[@for="' . $id . '"]' )->length, 'Text field has associated label' );
 }

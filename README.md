@@ -1,17 +1,17 @@
-# HDY Login Branding
+# HDY Login and Registration Branding
 
-HDY Login Branding customizes WordPress login, registration, and password-recovery screens from the WordPress admin.
+HDY Login and Registration Branding customizes WordPress login, registration, and password-recovery screens from the WordPress admin. It also provides optional email sender details and an authentication-screen support link.
 
 Use it to replace the default WordPress logo, add a responsive background image, choose shared or per-page colors, and customize authentication instructions and button labels without editing theme files.
 
 ## Plugin Details
 
-- Plugin name: **HDY Login Branding**
+- Plugin name: **HDY Login and Registration Branding**
 - WordPress slug: `hdy-login-branding`
 - Text domain: `hdy-login-branding`
 - Main plugin file: `hdy-login-branding.php`
 - GitHub repo: https://github.com/HDYHaus/hdy-login-branding
-- Plugin page: [HDY Login Branding at HDY Haus](https://hdyhaus.com/wp-plugins/hdy-login-branding/)
+- Plugin page: [HDY Login and Registration Branding at HDY Haus](https://hdyhaus.com/wp-plugins/hdy-login-branding/)
 
 ## Features
 
@@ -22,18 +22,23 @@ Use it to replace the default WordPress logo, add a responsive background image,
 - Add a responsive login page background image from the WordPress Media Library.
 - Change the login button text.
 - Change the login button background and text colors.
-- Manage everything from **Settings > HDY Login Branding**.
-- Use four keyboard-accessible tabs: Shared Branding, Login, Registration, and Password Recovery.
+- Manage everything from **Settings > HDY Login and Registration Branding**.
+- Use seven keyboard-accessible tabs for branding, email sender, support link, and Dashboard access settings.
 - Customize registration headings and lost/reset-password instructions and button labels.
 - Override background, button background, and button text colors for each flow, or inherit shared colors.
 - Preview changes with button contrast feedback and an unsaved-changes warning.
 - Stay on the selected settings tab after saving.
+- Set an optional sender name and address for WordPress mail; mail plugins can override these values.
+- Add a keyboard-accessible support link to authentication-screen footers, with an optional new-tab setting.
+- Restrict Dashboard access and hide the Toolbar independently for selected built-in or plugin-registered roles, with an editable 403 message.
 
 ## Settings
 
 **Shared Branding** controls the logo, optional background image, and default colors for authentication screens. The background image is centered and scaled to cover the screen; the background color remains visible while the image loads and wherever the image does not cover. Existing saved logo and color settings remain compatible.
 
 **Login** controls the login button label and optional colors. **Registration** controls its heading, button label, and optional colors. **Password Recovery** has separate lost-password and reset-password text and color controls.
+
+**Email Sender** optionally sets the visible sender name and address for WordPress mail. Leave either field blank to keep the current value. These settings do not configure SMTP or guarantee delivery. **Support Link** adds a footer link to authentication screens when a valid URL is saved; opening it in a new tab is optional.
 
 Each flow starts with **Use shared colors** enabled. Disable it to set that flow's colors. Blank color overrides inherit the corresponding shared color; enabling inheritance again retains saved overrides. Blank text fields preserve WordPress default copy.
 
@@ -44,8 +49,8 @@ Switch tabs with arrow keys or Home/End. All settings share one Save all changes
 1. Download the plugin zip.
 2. In WordPress, go to **Plugins > Add New Plugin > Upload Plugin**.
 3. Upload the zip file.
-4. Activate **HDY Login Branding**.
-5. Go to **Settings > HDY Login Branding** and choose your logo, optional background image, colors, instructions, and button labels.
+4. Activate **HDY Login and Registration Branding**.
+5. Go to **Settings > HDY Login and Registration Branding** and choose your logo, optional background image, colors, instructions, button labels, sender details, and support link.
 
 ## Development
 
@@ -83,4 +88,4 @@ See [release notes and validation status](docs/release-1.2.0.md).
 
 ## License
 
-HDY Login Branding is licensed under the GPL-3.0-or-later license. See [LICENSE](LICENSE).
+HDY Login and Registration Branding is licensed under the GPL-3.0-or-later license. See [LICENSE](LICENSE).
