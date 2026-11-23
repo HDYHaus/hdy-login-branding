@@ -42,7 +42,10 @@ function hdylb_get_flow_colors( $flow ) {
  * @return void
  */
 function hdylb_text_control( $name, $label, $help = '', $multiline = false ) {
-	$value = get_option( $name, '' );
+	$value = get_option( $name, HDY_LOGIN_BRANDING_OPTION_SUPPORT_LABEL === $name ? 'Support' : '' );
+	if ( HDY_LOGIN_BRANDING_OPTION_SUPPORT_LABEL === $name && '' === $value ) {
+		$value = 'Support';
+	}
 	?>
 	<div class="hdylb-field">
 		<label for="<?php echo esc_attr( $name ); ?>"><?php echo esc_html( $label ); ?></label>
@@ -113,11 +116,19 @@ function hdylb_render_settings_page() {
 		'login'    => __( 'Login', 'hdy-login-branding' ),
 		'register' => __( 'Registration', 'hdy-login-branding' ),
 		'recovery' => __( 'Password Recovery', 'hdy-login-branding' ),
+		'email'    => __( 'Email Sender', 'hdy-login-branding' ),
+		'support'  => __( 'Support Link', 'hdy-login-branding' ),
+		'access'   => __( 'Dashboard Access', 'hdy-login-branding' ),
 	);
 	$blank_help = __( 'Leave blank to keep the WordPress default.', 'hdy-login-branding' );
+	$default_sender_host = wp_parse_url( network_home_url(), PHP_URL_HOST );
+	if ( is_string( $default_sender_host ) && 0 === strpos( $default_sender_host, 'www.' ) ) {
+		$default_sender_host = substr( $default_sender_host, 4 );
+	}
+	$default_sender_email = 'wordpress@' . (string) $default_sender_host;
 	?>
 	<div class="wrap hdylb-settings">
-		<h1><?php esc_html_e( 'HDY Login Branding', 'hdy-login-branding' ); ?></h1>
+		<h1><?php esc_html_e( 'HDY Login and Registration Branding', 'hdy-login-branding' ); ?></h1>
 		<nav class="hdylb-tabs" aria-label="<?php esc_attr_e( 'Branding settings', 'hdy-login-branding' ); ?>">
 			<?php foreach ( $tabs as $key => $label ) : ?>
 				<a id="<?php echo esc_attr( 'hdylb-tab-' . $key ); ?>" href="<?php echo esc_attr( '#hdylb-panel-' . $key ); ?>"><?php echo esc_html( $label ); ?></a>
@@ -190,6 +201,63 @@ function hdylb_render_settings_page() {
 							hdylb_text_control( HDY_LOGIN_BRANDING_OPTION_RESET_PASSWORD_BUTTON_TEXT, __( 'Reset-password button label', 'hdy-login-branding' ), $blank_help );
 							hdylb_color_controls( 'resetpass' );
 							?>
+						</div>
+					</section>
+					<section id="hdylb-panel-email" class="hdylb-panel" aria-labelledby="hdylb-tab-email">
+						<h2><?php esc_html_e( 'Email Sender', 'hdy-login-branding' ); ?></h2>
+						<p><?php esc_html_e( 'Set the visible sender name and email address used by WordPress mail.', 'hdy-login-branding' ); ?></p>
+						<div class="hdylb-field">
+							<label for="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_EMAIL_FROM_NAME ); ?>"><?php esc_html_e( 'Sender name', 'hdy-login-branding' ); ?></label>
+							<input type="text" id="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_EMAIL_FROM_NAME ); ?>" name="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_EMAIL_FROM_NAME ); ?>" value="<?php echo esc_attr( get_option( HDY_LOGIN_BRANDING_OPTION_EMAIL_FROM_NAME, '' ) ); ?>" placeholder="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" autocomplete="organization">
+							<p class="description"><?php esc_html_e( 'Leave blank to keep the current mail sender name. Suggested default: your WordPress site title.', 'hdy-login-branding' ); ?></p>
+						</div>
+						<div class="hdylb-field">
+							<label for="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_EMAIL_FROM ); ?>"><?php esc_html_e( 'Sender email address', 'hdy-login-branding' ); ?></label>
+							<input type="email" id="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_EMAIL_FROM ); ?>" name="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_EMAIL_FROM ); ?>" value="<?php echo esc_attr( get_option( HDY_LOGIN_BRANDING_OPTION_EMAIL_FROM, '' ) ); ?>" placeholder="<?php echo esc_attr( $default_sender_email ); ?>" autocomplete="email">
+							<p class="description"><?php esc_html_e( 'Leave blank to keep the current mail sender address. The suggested default follows the current WordPress site domain.', 'hdy-login-branding' ); ?></p>
+						</div>
+						<p class="description"><?php esc_html_e( 'These settings change visible sender details only. They do not configure SMTP or guarantee email delivery. Mail plugins that filter sender details later can override these values.', 'hdy-login-branding' ); ?></p>
+					</section>
+					<section id="hdylb-panel-support" class="hdylb-panel" aria-labelledby="hdylb-tab-support">
+						<h2><?php esc_html_e( 'Support Link', 'hdy-login-branding' ); ?></h2>
+						<p><?php esc_html_e( 'Add a support link to the footer of WordPress authentication screens.', 'hdy-login-branding' ); ?></p>
+						<?php hdylb_text_control( HDY_LOGIN_BRANDING_OPTION_SUPPORT_LABEL, __( 'Support link label', 'hdy-login-branding' ), __( 'Text displayed for the support link. Defaults to Support.', 'hdy-login-branding' ) ); ?>
+						<div class="hdylb-field">
+							<label for="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_SUPPORT_URL ); ?>"><?php esc_html_e( 'Support URL', 'hdy-login-branding' ); ?></label>
+							<input type="url" id="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_SUPPORT_URL ); ?>" name="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_SUPPORT_URL ); ?>" value="<?php echo esc_attr( get_option( HDY_LOGIN_BRANDING_OPTION_SUPPORT_URL, '' ) ); ?>" placeholder="https://example.com/support" aria-describedby="hdylb-support-url-help">
+							<p class="description" id="hdylb-support-url-help"><?php esc_html_e( 'Enter a full HTTP or HTTPS URL. The link is hidden when this field is blank.', 'hdy-login-branding' ); ?></p>
+						</div>
+						<div class="hdylb-field">
+							<label><input type="hidden" name="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_SUPPORT_NEW_TAB ); ?>" value="0"><input type="checkbox" name="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_SUPPORT_NEW_TAB ); ?>" value="1" <?php checked( 1, get_option( HDY_LOGIN_BRANDING_OPTION_SUPPORT_NEW_TAB, 0 ) ); ?>> <?php esc_html_e( 'Open in a new tab', 'hdy-login-branding' ); ?></label>
+							<p class="description"><?php esc_html_e( 'Unchecked by default. New-tab links include safe opener protections.', 'hdy-login-branding' ); ?></p>
+						</div>
+					</section>
+					<section id="hdylb-panel-access" class="hdylb-panel" aria-labelledby="hdylb-tab-access">
+						<h2><?php esc_html_e( 'Restrict Dashboard Access', 'hdy-login-branding' ); ?></h2>
+						<p><?php esc_html_e( 'Choose independently which roles cannot access the WordPress Dashboard and which roles do not see the Toolbar. Users with any selected role are affected. Administrators with manage_options and multisite super admins are exempt.', 'hdy-login-branding' ); ?></p>
+						<div class="hdylb-field">
+							<input type="hidden" name="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_DASHBOARD_BLOCKED_ROLES ); ?>[]" value="">
+							<input type="hidden" name="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_TOOLBAR_HIDDEN_ROLES ); ?>[]" value="">
+							<table class="widefat striped">
+								<caption class="screen-reader-text"><?php esc_html_e( 'Role access controls', 'hdy-login-branding' ); ?></caption>
+								<thead><tr><th scope="col"><?php esc_html_e( 'Role', 'hdy-login-branding' ); ?></th><th id="hdylb-dashboard-column" scope="col"><?php esc_html_e( 'Block Dashboard Access', 'hdy-login-branding' ); ?></th><th id="hdylb-toolbar-column" scope="col"><?php esc_html_e( 'Hide Toolbar', 'hdy-login-branding' ); ?></th></tr></thead>
+								<tbody>
+								<?php $roles = hdylb_get_selectable_roles(); ?>
+								<?php foreach ( $roles as $role_slug => $role_name ) : ?>
+									<tr>
+										<th id="<?php echo esc_attr( 'hdylb-role-' . $role_slug ); ?>" scope="row"><?php echo esc_html( $role_name ); ?></th>
+										<td><input type="checkbox" name="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_DASHBOARD_BLOCKED_ROLES ); ?>[]" value="<?php echo esc_attr( $role_slug ); ?>" aria-labelledby="<?php echo esc_attr( 'hdylb-role-' . $role_slug ); ?> hdylb-dashboard-column" <?php checked( in_array( $role_slug, (array) get_option( HDY_LOGIN_BRANDING_OPTION_DASHBOARD_BLOCKED_ROLES, array() ), true ), true ); ?>></td>
+										<td><input type="checkbox" name="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_TOOLBAR_HIDDEN_ROLES ); ?>[]" value="<?php echo esc_attr( $role_slug ); ?>" aria-labelledby="<?php echo esc_attr( 'hdylb-role-' . $role_slug ); ?> hdylb-toolbar-column" <?php checked( in_array( $role_slug, (array) get_option( HDY_LOGIN_BRANDING_OPTION_TOOLBAR_HIDDEN_ROLES, array() ), true ), true ); ?>></td>
+									</tr>
+								<?php endforeach; ?>
+								</tbody>
+							</table>
+							<p class="description"><?php esc_html_e( 'Dashboard restrictions apply to regular admin screens. AJAX, REST, cron, admin-post, and command-line requests remain available.', 'hdy-login-branding' ); ?></p>
+						</div>
+						<div class="hdylb-field">
+							<label for="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_DASHBOARD_DENIAL_MESSAGE ); ?>"><?php esc_html_e( 'Dashboard denial message', 'hdy-login-branding' ); ?></label>
+							<textarea id="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_DASHBOARD_DENIAL_MESSAGE ); ?>" name="<?php echo esc_attr( HDY_LOGIN_BRANDING_OPTION_DASHBOARD_DENIAL_MESSAGE ); ?>" rows="3"><?php echo esc_textarea( hdylb_get_dashboard_denial_message() ); ?></textarea>
+							<p class="description"><?php esc_html_e( 'Shown to restricted users with an HTTP 403 response.', 'hdy-login-branding' ); ?></p>
 						</div>
 					</section>
 				</div>

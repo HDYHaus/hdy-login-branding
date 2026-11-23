@@ -113,9 +113,13 @@ jQuery(function ($) {
     if (key === 'recovery') {
       options.filter('[value="login"],[value="register"]').prop('disabled', true);
       $('#hdylb-preview-flow').val('lostpassword');
-    } else if (key !== 'shared') {
+    } else if (key === 'login' || key === 'register') {
       $('#hdylb-preview-flow').val(key);
       options.not('[value="' + key + '"]').prop('disabled', true);
+    } else {
+      // Settings-only panels do not correspond to a preview authentication flow.
+      options.prop('disabled', false);
+      if (!$('#hdylb-preview-flow').val()) { $('#hdylb-preview-flow').val('login'); }
     }
     renderPreview();
   }

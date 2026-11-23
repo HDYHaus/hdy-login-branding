@@ -21,6 +21,7 @@ expect_same( $shared, hdylb_get_flow_colors( 'retrievepassword' ), 'Lost-passwor
 $test_options['hdylb_register_shared'] = 1;
 expect_same( $shared, hdylb_get_flow_colors( 'register' ), 'Re-enabling inheritance restores shared colors' );
 expect_same( '#ff0000', $test_options['hdylb_register_background_color'], 'Toggle keeps stored override' );
+$GLOBALS['test_network_home_url'] = 'https://www.example.test/';
 hdylb_register_settings();
 expect_same( 1, $test_registered['hdylb_register_shared']['default'], 'New installs inherit by default' );
 expect_same( 'hdylb_sanitize_button_color', $test_registered['hdylb_resetpass_button_color']['sanitize_callback'], 'Overrides are sanitized' );
@@ -30,8 +31,9 @@ $html = ob_get_clean();
 $dom = new DOMDocument();
 @$dom->loadHTML( $html );
 $xpath = new DOMXPath( $dom );
-expect_same( 4, $xpath->query( '//section' )->length, 'Four sections render without JavaScript' );
-foreach ( $xpath->query( '//input[@type="text"] | //textarea' ) as $field ) {
+expect_same( 7, $xpath->query( '//section' )->length, 'All seven settings sections render without JavaScript' );
+expect_same( 1, $xpath->query( '//input[@name="hdylb_email_from" and @placeholder="wordpress@example.test"]' )->length, 'Suggested sender address matches the WordPress default domain' );
+foreach ( $xpath->query( '//input[@type="text"] | //input[@type="email"] | //input[@type="url"] | //textarea' ) as $field ) {
 	$id = $field->getAttribute( 'id' );
 	expect_same( 1, $xpath->query( '//label[@for="' . $id . '"]' )->length, 'Text field has associated label' );
 }
