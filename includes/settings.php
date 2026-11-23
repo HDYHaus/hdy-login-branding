@@ -121,10 +121,11 @@ function hdylb_render_settings_page() {
 		'access'   => __( 'Dashboard Access', 'hdy-login-branding' ),
 	);
 	$blank_help = __( 'Leave blank to keep the WordPress default.', 'hdy-login-branding' );
-	$default_sender_host = isset( $_SERVER['SERVER_NAME'] ) && is_string( $_SERVER['SERVER_NAME'] )
-		? sanitize_text_field( wp_unslash( $_SERVER['SERVER_NAME'] ) )
-		: (string) wp_parse_url( home_url(), PHP_URL_HOST );
-	$default_sender_email = 'wordpress@' . $default_sender_host;
+	$default_sender_host = wp_parse_url( network_home_url(), PHP_URL_HOST );
+	if ( is_string( $default_sender_host ) && 0 === strpos( $default_sender_host, 'www.' ) ) {
+		$default_sender_host = substr( $default_sender_host, 4 );
+	}
+	$default_sender_email = 'wordpress@' . (string) $default_sender_host;
 	?>
 	<div class="wrap hdylb-settings">
 		<h1><?php esc_html_e( 'HDY Login and Registration Branding', 'hdy-login-branding' ); ?></h1>

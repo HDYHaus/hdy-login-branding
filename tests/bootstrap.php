@@ -50,6 +50,7 @@ function settings_fields() {}
 function submit_button( $label ) { echo '<button type="submit" class="button button-primary">' . esc_html( $label ) . '</button>'; }
 function admin_url( $path ) { return '/?asset=logo'; }
 function home_url() { return 'https://example.test/'; }
+function network_home_url() { return $GLOBALS['test_network_home_url'] ?? home_url(); }
 function get_bloginfo( $show = '', $filter = 'raw' ) { return 'Example Site'; }
 function wp_parse_url( $url, $component = -1 ) { return parse_url( $url, $component ); }
 function wp_unslash( $value ) { return stripslashes( $value ); }
